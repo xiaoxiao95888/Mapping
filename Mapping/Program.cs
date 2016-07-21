@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using DevExpress.UserSkins;
 using DevExpress.Skins;
+using Mapping.Model;
 
 namespace Mapping
 {
@@ -20,7 +22,14 @@ namespace Mapping
 
             BonusSkins.Register();
             SkinManager.EnableFormSkins();
-            Application.Run(new Form1());
+            Init();
+            Application.Run(new MainForm());
+        }
+
+        static void Init()
+        {
+            DataSource.DataSource1 = new BindingList<Item>();
+            DataSource.DataSource2=new BindingList<Item>();
         }
     }
 }
