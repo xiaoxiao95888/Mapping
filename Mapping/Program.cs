@@ -29,7 +29,9 @@ namespace Mapping
         static void Init()
         {
             DataSource.DataSource1 = new BindingList<Item>();
-            DataSource.DataSource2=new BindingList<Item>();
+            DataSource.DataSource2 = new BindingList<Item>();
+            DataSource.SelectedItem = new Item();
+            DataSource.SelectedPlace = new Place();
         }
     }
 }

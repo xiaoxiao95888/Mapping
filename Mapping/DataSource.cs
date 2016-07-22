@@ -12,5 +12,7 @@ namespace Mapping
     {
         public static BindingList<Item> DataSource1 { get; set; }
         public static BindingList<Item> DataSource2 { get; set; }
+        public static Item SelectedItem { get; set; }
+        public static Place SelectedPlace { get; set; }
     }
 }

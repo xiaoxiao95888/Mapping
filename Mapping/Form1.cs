@@ -1,10 +1,16 @@
 ﻿using Mapping.Model;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using DevExpress.XtraSplashScreen;
 using Mapping.Helper;
+using Mapping.View;
 
 namespace Mapping
 {
@@ -12,7 +18,6 @@ namespace Mapping
     {
         public MainForm()
         {
-
             InitializeComponent();
             Init();
         }
@@ -20,29 +25,23 @@ namespace Mapping
         private void btn_importexcel_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             SelectExcel();
-            //var importData = new ImportData
-            // {
-            //     StartPosition = FormStartPosition.CenterParent
-            // };
-            // importData.ShowDialog();
         }
 
         private async void barButtonItem2_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             SplashScreenManager.ShowForm(this, typeof(WaitForm1), true, true, false);
             SplashScreenManager.Default.SendCommand(WaitForm1.WaitFormCommand.SetProgressMax, DataSource.DataSource1.Count);
-            //await ParticipleHelp.Participle();
+            await ParticipleHelp.Participle();
             await LocaltionHelp.Localtion();
             //Close Wait Form
             SplashScreenManager.CloseForm(false);
-
         }
 
         public void Init()
         {
             this.gridControl1.DataSource = DataSource.DataSource1;
-            // this.gridControl2.DataSource = DataSource.DataSource2;
         }
+
         /// <summary>
         /// 选择excel
         /// </summary>
@@ -56,7 +55,12 @@ namespace Mapping
                     try
                     {
                         var result = ExcelHelper.GetDataFromExcel<Item>(fileDialog.FileName).Where(n => n.Code != null).ToList();
-                        result.ForEach(n => n.Id = Guid.NewGuid());
+                        result.ForEach(n =>
+                        {
+                            n.Id = Guid.NewGuid();
+                            n.Places = new List<Place>();
+                            n.Words = new List<Word>();
+                        });
                         DataSource.DataSource1.Clear();
                         foreach (var item in result)
                         {
@@ -78,5 +82,31 @@ namespace Mapping
                 }
             }
         }
+
+        private void barButtonItem1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            var dsadas = DataSource.DataSource1;
+        }
+
+        private void gridView3_DoubleClick(object sender, EventArgs e)
+        {
+            var view = (GridView)sender;
+            var pt = view.GridControl.PointToClient(MousePosition);
+            var info = view.CalcHitInfo(pt);
+            if (info.InRow || info.InRowCell)
+            {
+                //数据源中的Index
+                var placeId = view.GetRowCellValue(info.RowHandle, "Id").ToString();
+                DataSource.SelectedPlace =
+                    DataSource.DataSource1.SelectMany(n => n.Places).FirstOrDefault(n => n.Id == placeId);
+                DataSource.SelectedItem = DataSource.DataSource1.FirstOrDefault(n => n.Id == DataSource.SelectedPlace.ItemId);
+                var matchForm = new MatchForm
+                {
+                    StartPosition = FormStartPosition.CenterParent
+                };
+                matchForm.ShowDialog();
+            }
+        }
     }
+
 }

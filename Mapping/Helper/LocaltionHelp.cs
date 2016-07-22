@@ -17,47 +17,40 @@ namespace Mapping.Helper
     {
         public static async Task Localtion()
         {
-            const string key = "wpnLFgvCKjUk4IAq2P3yzyGFPOzAQC2l";
-            for (int i = 0; i < DataSource.DataSource1.Count; i++)
+            //const string key = "wpnLFgvCKjUk4IAq2P3yzyGFPOzAQC2l";
+            const string key = "0e5d423fdc3296a4212cce56cc52d2a6";//高德key
+            for (var i = 0; i < DataSource.DataSource1.Count; i++)
             {
                 var name = DataSource.DataSource1[i].Name;
-                //第一步调用search，结果不包含城市区县等信息
+                var itemId = DataSource.DataSource1[i].Id;
                 var url =
-                    $"http://api.map.baidu.com/place/v2/search?q={name}&region=全国&output=json&ak={key}";
+                    $"http://restapi.amap.com/v3/place/text?key={key}&keywords={name}&types=&city=&children=1&offset=20&page=1&extensions=base";
                 var result = await GetResponseStringAsync(url);
                 var local = Json.Decode(result);
-                if (local != null && local.results.Length != 0)
+                if (local != null && local.pois.Length != 0)
                 {
-                    var places= new List<Place>();
-                    foreach (var item in local.results)
+                    foreach (var item in local.pois)
                     {
-                        if (item.location.Length != 0)
+                        DataSource.DataSource1[i].Places.Add(new Place
                         {
-                            var place = new Place
-                            {
-                                Location = new Location
-                                {
-                                    Lat = item.location.lat,
-                                    Lng = item.location.lng
-                                },
-                                Uid = item.uid,
-                                Name = item.name,
-                                Address = item.address
-                            };
-                            //第二部调用Geocoding API 将坐标转换成地址
-                            //places.Add(new Place { City = item.city, District = item.district, });
-                        }
-
+                            ItemId = itemId,
+                            Id = item.id,
+                            Name = item.name,
+                            Type = item.type,
+                            TypeCode = item.typecode,
+                            Address = item.address,
+                            Location = item.location,
+                            Province = item.pname,
+                            City = item.cityname,
+                            District = item.adname
+                        });
                     }
                 }
-
                 #region 获取地理信息
-                DataSource.DataSource1[i].Place = null;
                 SplashScreenManager.Default.SendCommand(WaitForm1.WaitFormCommand.SetProgress2, i);
                 #endregion
             }
         }
-
         private static async Task<string> GetResponseStringAsync(string url)
         {
             var handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.GZip };
