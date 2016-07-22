@@ -16,6 +16,22 @@ namespace Mapping.View
         public MatchForm()
         {
             InitializeComponent();
+            Init();
+        }
+        private void Init()
+        {
+            lblname.Text = DataSource.SelectedItem.Name;
+            lbladdress.Text = DataSource.SelectedPlace.Address;
+            lbltypecode.Text = DataSource.SelectedPlace.TypeCode;
+            lbltype.Text = DataSource.SelectedPlace.Type;
+            cbxprovince.Text = DataSource.SelectedPlace.Province;
+            cbxcity.Text = DataSource.SelectedPlace.City;
+            cbxdistrict.Text = DataSource.SelectedPlace.District;
+            cbxprovince.Visible = !string.IsNullOrEmpty(cbxprovince.Text);
+            cbxcity.Visible = !string.IsNullOrEmpty(cbxcity.Text);
+            cbxdistrict.Visible = !string.IsNullOrEmpty(cbxdistrict.Text);        
+            searchLookUpEdit1.Properties.DataSource=DataSource.SelectedItem;
+            searchLookUpEdit1.Properties.View = searchLookUpEdit1View;          
         }
     }
 }

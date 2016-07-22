@@ -30,9 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             DevExpress.XtraSplashScreen.SplashScreenManager splashScreenManager1 = new DevExpress.XtraSplashScreen.SplashScreenManager(this, null, true, true);
-            DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
-            DevExpress.XtraGrid.GridLevelNode gridLevelNode2 = new DevExpress.XtraGrid.GridLevelNode();
+            DevExpress.XtraGrid.GridLevelNode gridLevelNode3 = new DevExpress.XtraGrid.GridLevelNode();
+            DevExpress.XtraGrid.GridLevelNode gridLevelNode4 = new DevExpress.XtraGrid.GridLevelNode();
             this.gridView3 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.place_gridColumn_ItemCode = new DevExpress.XtraGrid.Columns.GridColumn();
             this.place_gridColumn_Name = new DevExpress.XtraGrid.Columns.GridColumn();
             this.place_gridColumn_Type = new DevExpress.XtraGrid.Columns.GridColumn();
             this.place_gridColumn_TypeCode = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -41,8 +42,6 @@
             this.place_gridColumn_Province = new DevExpress.XtraGrid.Columns.GridColumn();
             this.place_gridColumn_City = new DevExpress.XtraGrid.Columns.GridColumn();
             this.place_gridColumn_District = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.place_gridColumn_Action = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repositoryItemButtonEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.word_gridColumn_Id = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -59,17 +58,17 @@
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.repositoryItemButtonEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.splitContainerControl2 = new DevExpress.XtraEditors.SplitContainerControl();
-            this.place_gridColumn_Id = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gridView3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemButtonEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.appMenu)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemButtonEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl2)).BeginInit();
             this.splitContainerControl2.SuspendLayout();
             this.SuspendLayout();
@@ -81,7 +80,7 @@
             // gridView3
             // 
             this.gridView3.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.place_gridColumn_Id,
+            this.place_gridColumn_ItemCode,
             this.place_gridColumn_Name,
             this.place_gridColumn_Type,
             this.place_gridColumn_TypeCode,
@@ -89,8 +88,7 @@
             this.place_gridColumn_Location,
             this.place_gridColumn_Province,
             this.place_gridColumn_City,
-            this.place_gridColumn_District,
-            this.place_gridColumn_Action});
+            this.place_gridColumn_District});
             this.gridView3.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.None;
             this.gridView3.GridControl = this.gridControl1;
             this.gridView3.Name = "gridView3";
@@ -98,6 +96,15 @@
             this.gridView3.OptionsView.EnableAppearanceOddRow = true;
             this.gridView3.OptionsView.ShowIndicator = false;
             this.gridView3.DoubleClick += new System.EventHandler(this.gridView3_DoubleClick);
+            // 
+            // place_gridColumn_ItemCode
+            // 
+            this.place_gridColumn_ItemCode.Caption = "原始编号";
+            this.place_gridColumn_ItemCode.FieldName = "ItemCode";
+            this.place_gridColumn_ItemCode.Name = "place_gridColumn_ItemCode";
+            this.place_gridColumn_ItemCode.OptionsColumn.AllowEdit = false;
+            this.place_gridColumn_ItemCode.Visible = true;
+            this.place_gridColumn_ItemCode.VisibleIndex = 0;
             // 
             // place_gridColumn_Name
             // 
@@ -171,31 +178,16 @@
             this.place_gridColumn_District.Visible = true;
             this.place_gridColumn_District.VisibleIndex = 8;
             // 
-            // place_gridColumn_Action
-            // 
-            this.place_gridColumn_Action.Caption = "操作";
-            this.place_gridColumn_Action.ColumnEdit = this.repositoryItemButtonEdit1;
-            this.place_gridColumn_Action.Name = "place_gridColumn_Action";
-            this.place_gridColumn_Action.Visible = true;
-            this.place_gridColumn_Action.VisibleIndex = 9;
-            // 
-            // repositoryItemButtonEdit1
-            // 
-            this.repositoryItemButtonEdit1.AutoHeight = false;
-            this.repositoryItemButtonEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton()});
-            this.repositoryItemButtonEdit1.Name = "repositoryItemButtonEdit1";
-            // 
             // gridControl1
             // 
             this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            gridLevelNode1.LevelTemplate = this.gridView3;
-            gridLevelNode1.RelationName = "Places";
-            gridLevelNode2.LevelTemplate = this.gridView2;
-            gridLevelNode2.RelationName = "Words";
+            gridLevelNode3.LevelTemplate = this.gridView3;
+            gridLevelNode3.RelationName = "Places";
+            gridLevelNode4.LevelTemplate = this.gridView2;
+            gridLevelNode4.RelationName = "Words";
             this.gridControl1.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
-            gridLevelNode1,
-            gridLevelNode2});
+            gridLevelNode3,
+            gridLevelNode4});
             this.gridControl1.Location = new System.Drawing.Point(0, 0);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.MenuManager = this.ribbonControl1;
@@ -349,6 +341,13 @@
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
             this.ribbonPageGroup1.Text = "Common";
             // 
+            // repositoryItemButtonEdit1
+            // 
+            this.repositoryItemButtonEdit1.AutoHeight = false;
+            this.repositoryItemButtonEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton()});
+            this.repositoryItemButtonEdit1.Name = "repositoryItemButtonEdit1";
+            // 
             // gridColumn2
             // 
             this.gridColumn2.Caption = "gridColumn2";
@@ -377,15 +376,6 @@
             this.splitContainerControl2.TabIndex = 10;
             this.splitContainerControl2.Text = "splitContainerControl2";
             // 
-            // place_gridColumn_Id
-            // 
-            this.place_gridColumn_Id.Caption = "Id";
-            this.place_gridColumn_Id.FieldName = "Id";
-            this.place_gridColumn_Id.Name = "place_gridColumn_Id";
-            this.place_gridColumn_Id.OptionsColumn.AllowEdit = false;
-            this.place_gridColumn_Id.Visible = true;
-            this.place_gridColumn_Id.VisibleIndex = 0;
-            // 
             // MainForm
             // 
             this.AllowFormGlass = DevExpress.Utils.DefaultBoolean.False;
@@ -399,12 +389,12 @@
             this.Ribbon = this.ribbonControl1;
             this.Text = "终端Mapping辅助工具";
             ((System.ComponentModel.ISupportInitialize)(this.gridView3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemButtonEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.appMenu)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemButtonEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl2)).EndInit();
             this.splitContainerControl2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -441,9 +431,8 @@
         private DevExpress.XtraGrid.Columns.GridColumn place_gridColumn_District;
         private DevExpress.XtraGrid.Columns.GridColumn word_gridColumn_Id;
         private DevExpress.XtraGrid.Columns.GridColumn word_gridColumn_Name;
-        private DevExpress.XtraGrid.Columns.GridColumn place_gridColumn_Action;
         private DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit repositoryItemButtonEdit1;
-        private DevExpress.XtraGrid.Columns.GridColumn place_gridColumn_Id;
+        private DevExpress.XtraGrid.Columns.GridColumn place_gridColumn_ItemCode;
     }
 }
 

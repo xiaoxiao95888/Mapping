@@ -125,7 +125,7 @@
     <Compile Include="Helper\LocaltionHelp.cs" />
     <Compile Include="Helper\ParticipleHelp.cs" />
     <Compile Include="Model\Item.cs" />
-    <Compile Include="Model\Localtion.cs" />
+    <Compile Include="Model\Place.cs" />
     <Compile Include="Model\Word.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -10,6 +10,7 @@ namespace Mapping.Model
     {
         public string Id { get; set; }
         public Guid ItemId { get; set; }
+        public string ItemCode { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
         public string TypeCode { get; set; }
