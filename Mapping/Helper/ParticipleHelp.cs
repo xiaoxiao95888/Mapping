@@ -22,6 +22,7 @@ namespace Mapping.Helper
             {
                 var name = DataSource.DataSource1[i].Name;
                 var itemId= DataSource.DataSource1[i].Id;
+                DataSource.DataSource1[i].Words.Clear();
                 var url =
                     $"http://ltpapi.voicecloud.cn/analysis/?api_key={key}&text={name}&pattern=all&format=json";
                 var result = await GetResponseStringAsync(url);

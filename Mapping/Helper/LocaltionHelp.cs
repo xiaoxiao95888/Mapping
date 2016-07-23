@@ -24,6 +24,7 @@ namespace Mapping.Helper
                 var name = DataSource.DataSource1[i].Name;
                 var itemId = DataSource.DataSource1[i].Id;
                 var itemCode = DataSource.DataSource1[i].Code;
+                DataSource.DataSource1[i].Places.Clear();
                 var url =
                     $"http://restapi.amap.com/v3/place/text?key={key}&keywords={name}&types=&city=&children=1&offset=20&page=1&extensions=base";
                 var result = await GetResponseStringAsync(url);

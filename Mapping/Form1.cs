@@ -40,6 +40,7 @@ namespace Mapping
         public void Init()
         {
             this.gridControl1.DataSource = DataSource.DataSource1;
+            
         }
 
         /// <summary>
@@ -88,25 +89,40 @@ namespace Mapping
             var dsadas = DataSource.DataSource1;
         }
 
-        private void gridView3_DoubleClick(object sender, EventArgs e)
+        private void gridView1_Click(object sender, EventArgs e)
         {
             var view = (GridView)sender;
-            var pt = view.GridControl.PointToClient(MousePosition);
-            var info = view.CalcHitInfo(pt);
+                var pt = view.GridControl.PointToClient(MousePosition);
+                var info = view.CalcHitInfo(pt);
             if (info.InRow || info.InRowCell)
             {
                 //数据源中的Index
-                var placeId = view.GetRowCellValue(info.RowHandle, "Id").ToString();
-                DataSource.SelectedPlace =
-                    DataSource.DataSource1.SelectMany(n => n.Places).FirstOrDefault(n => n.Id == placeId);
-                DataSource.SelectedItem = DataSource.DataSource1.FirstOrDefault(n => n.Id == DataSource.SelectedPlace.ItemId);
-                var matchForm = new MatchForm
-                {
-                    StartPosition = FormStartPosition.CenterParent
-                };
-                matchForm.ShowDialog();
+                        var itemId = view.GetRowCellValue(info.RowHandle, "Id")as Guid?;
+             
+                DataSource.SelectedItem = DataSource.DataSource1.FirstOrDefault(n => n.Id == itemId);
+                this.gridControl2.DataSource = DataSource.SelectedItem.Places;
             }
-        }
+        }      
+
+        //private void gridView3_DoubleClick(object sender, EventArgs e)
+        //{
+        //    var view = (GridView)sender;
+        //    var pt = view.GridControl.PointToClient(MousePosition);
+        //    var info = view.CalcHitInfo(pt);
+        //    if (info.InRow || info.InRowCell)
+        //    {
+        //        //数据源中的Index
+        //        var placeId = view.GetRowCellValue(info.RowHandle, "Id").ToString();
+        //        DataSource.SelectedPlace =
+        //            DataSource.DataSource1.SelectMany(n => n.Places).FirstOrDefault(n => n.Id == placeId);
+        //        DataSource.SelectedItem = DataSource.DataSource1.FirstOrDefault(n => n.Id == DataSource.SelectedPlace.ItemId);
+        //        var matchForm = new MatchForm
+        //        {
+        //            StartPosition = FormStartPosition.CenterParent
+        //        };
+        //        matchForm.ShowDialog();
+        //    }
+        //}
     }
 
 }
