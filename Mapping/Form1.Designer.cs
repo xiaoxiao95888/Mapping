@@ -165,6 +165,7 @@
             this.barButtonItem3.Id = 6;
             this.barButtonItem3.ImageUri.Uri = "Zoom";
             this.barButtonItem3.Name = "barButtonItem3";
+            this.barButtonItem3.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem3_ItemClick);
             // 
             // ribbonPage1
             // 

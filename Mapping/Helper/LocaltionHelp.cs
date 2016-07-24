@@ -15,15 +15,14 @@ namespace Mapping.Helper
 {
     public static class LocaltionHelp
     {
+        const string key = "0e5d423fdc3296a4212cce56cc52d2a6";//高德key
         public static async Task Localtion()
         {
-            //const string key = "wpnLFgvCKjUk4IAq2P3yzyGFPOzAQC2l";
-            const string key = "0e5d423fdc3296a4212cce56cc52d2a6";//高德key
+            //const string key = "wpnLFgvCKjUk4IAq2P3yzyGFPOzAQC2l";           
             for (var i = 0; i < DataSource.DataSource1.Count; i++)
             {
                 var name = DataSource.DataSource1[i].Name;
                 var itemId = DataSource.DataSource1[i].Id;
-                var itemCode = DataSource.DataSource1[i].Code;
                 DataSource.DataSource1[i].Places.Clear();
                 var url =
                     $"http://restapi.amap.com/v3/place/text?key={key}&keywords={name}&types=&city=&children=1&offset=20&page=1&extensions=base";
@@ -36,7 +35,6 @@ namespace Mapping.Helper
                         DataSource.DataSource1[i].Places.Add(new Place
                         {
                             ItemId = itemId,
-                            ItemCode = itemCode,
                             Id = item.id,
                             Name = item.name,
                             Type = item.type,
@@ -54,6 +52,54 @@ namespace Mapping.Helper
                 #endregion
             }
         }
+        /// <summary>
+        /// 获取推荐的城市
+        /// </summary>
+        /// <param name="name">关键字</param>
+        /// <returns></returns>
+        public static async Task GetSuggestion(string name)
+        {
+            var url =
+                  $"http://restapi.amap.com/v3/place/text?key={key}&keywords={name}&types=&city=&children=1&offset=20&page=1&extensions=base";
+            var result = await GetResponseStringAsync(url);
+            var json = Json.Decode(result);
+            if (json != null && json.pois.Length != 0)
+            {
+                DataSource.SelectedItem.Places = new List<Place>();
+                foreach (var item in json.pois)
+                {
+                    DataSource.SelectedItem.Places.Add(new Place
+                    {
+                        Id = item.id,
+                        ItemId = DataSource.SelectedItem.Id,
+                        Name = item.name,
+                        Type = item.type,
+                        TypeCode = item.typecode,
+                        Address = item.address,
+                        Location = item.location,
+                        Province = item.pname,
+                        City = item.cityname,
+                        District = item.adname
+                    });
+                }
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<Place> GetPlace(string name, dynamic city)
+        {
+            var url =
+                  $"http://restapi.amap.com/v3/place/text?key={key}&keywords={name}&types=&city={city.citycode}&children=1&offset=20&page=1&extensions=base";
+            var result = await GetResponseStringAsync(url);
+            var json = Json.Decode(result);
+            if (json != null && json.suggestion.Length != 0)
+            {
+                return json.cities;
+            }
+            return null;
+        }
         private static async Task<string> GetResponseStringAsync(string url)
         {
             var handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.GZip };
@@ -70,6 +116,5 @@ namespace Mapping.Helper
             }
             return null;//error
         }
-
     }
 }

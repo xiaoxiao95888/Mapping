@@ -102,7 +102,18 @@ namespace Mapping
                 DataSource.SelectedItem = DataSource.DataSource1.FirstOrDefault(n => n.Id == itemId);
                 this.gridControl2.DataSource = DataSource.SelectedItem.Places;
             }
-        }      
+        }
+
+        private void barButtonItem3_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            if (DataSource.SelectedItem.Places!=null &&DataSource.SelectedItem.Places.Any()==false)
+            {
+                var manualForm = new ManualForm { StartPosition = FormStartPosition.CenterParent };
+                manualForm.ShowDialog();
+            }
+        }
+
+
 
         //private void gridView3_DoubleClick(object sender, EventArgs e)
         //{
