@@ -86,8 +86,9 @@ namespace Mapping
 
         private void barButtonItem1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            var dsadas = DataSource.DataSource1;
-        }
+            //var dsadas = DataSource.DataSource1;
+            var test = new Test { StartPosition = FormStartPosition.CenterParent };
+            test.ShowDialog();}
 
         private void gridView1_Click(object sender, EventArgs e)
         {
@@ -106,7 +107,7 @@ namespace Mapping
 
         private void barButtonItem3_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            if (DataSource.SelectedItem.Places!=null &&DataSource.SelectedItem.Places.Any()==false)
+            if (DataSource.SelectedItem.Places!=null)
             {
                 var manualForm = new ManualForm { StartPosition = FormStartPosition.CenterParent };
                 manualForm.ShowDialog();

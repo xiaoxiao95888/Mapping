@@ -15,7 +15,8 @@ namespace Mapping.Helper
 {
     public static class LocaltionHelp
     {
-        const string key = "0e5d423fdc3296a4212cce56cc52d2a6";//高德key
+        //const string key = "0e5d423fdc3296a4212cce56cc52d2a6";//高德key
+        const string key = "8726e94e521325daaee5b4738d83bb56";//官方KEY
         public static async Task Localtion()
         {
             //const string key = "wpnLFgvCKjUk4IAq2P3yzyGFPOzAQC2l";           
@@ -57,10 +58,39 @@ namespace Mapping.Helper
         /// </summary>
         /// <param name="name">关键字</param>
         /// <returns></returns>
-        public static async Task GetSuggestion(string name)
+        public static async Task<List<SuggestionCity>> GetSuggestion(string name)
         {
             var url =
                   $"http://restapi.amap.com/v3/place/text?key={key}&keywords={name}&types=&city=&children=1&offset=20&page=1&extensions=base";
+            var result = await GetResponseStringAsync(url);
+           
+            var json = Json.Decode(result);
+            if (json != null && json.suggestion.cities.Length != 0)
+            {
+                var list = new List<SuggestionCity>();
+                foreach (var item in json.suggestion.cities)
+                {
+                    list.Add(new SuggestionCity
+                    {
+                        AdCode = item.adcode,
+                        CityName = item.name,
+                        CityCode = item.citycode,
+                        Num =Convert.ToInt32(item.num) 
+                    });
+                }
+                return list;
+            }
+            return null;
+           
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<Place> GetPlace(string name, string citycode)
+        {
+            var url =
+                  $"http://restapi.amap.com/v3/place/text?key={key}&keywords={name}&types=&city={citycode}&children=1&offset=20&page=1&extensions=base";
             var result = await GetResponseStringAsync(url);
             var json = Json.Decode(result);
             if (json != null && json.pois.Length != 0)
@@ -82,21 +112,6 @@ namespace Mapping.Helper
                         District = item.adname
                     });
                 }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static async Task<Place> GetPlace(string name, dynamic city)
-        {
-            var url =
-                  $"http://restapi.amap.com/v3/place/text?key={key}&keywords={name}&types=&city={city.citycode}&children=1&offset=20&page=1&extensions=base";
-            var result = await GetResponseStringAsync(url);
-            var json = Json.Decode(result);
-            if (json != null && json.suggestion.Length != 0)
-            {
-                return json.cities;
             }
             return null;
         }
