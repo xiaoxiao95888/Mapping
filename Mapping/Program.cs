@@ -5,7 +5,12 @@ using System.Linq;
 using System.Windows.Forms;
 using DevExpress.UserSkins;
 using DevExpress.Skins;
+using DevExpress.Xpo;
+using DevExpress.Xpo.DB;
 using Mapping.Model;
+using System.Data.Entity;
+using Mapping.Service;
+using DevExpress.XtraSplashScreen;
 
 namespace Mapping
 {
@@ -19,7 +24,6 @@ namespace Mapping
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
             BonusSkins.Register();
             SkinManager.EnableFormSkins();
             Init();
@@ -29,9 +33,10 @@ namespace Mapping
         static void Init()
         {
             DataSource.DataSource1 = new BindingList<Item>();
-            DataSource.DataSource2 = new BindingList<Item>();
             DataSource.SelectedItem = new Item();
             DataSource.SelectedPlace = new Place();
         }
+
+        
     }
 }

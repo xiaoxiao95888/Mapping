@@ -12,6 +12,9 @@ namespace Mapping.Model
         public Guid Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
+        public string Province { get; set; }
+        public string City { get; set; }
+        public string District { get; set; }
         /// <summary>
         /// 地理信息
         /// </summary>

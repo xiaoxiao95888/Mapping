@@ -5,13 +5,18 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mapping.DbModel;
 
 namespace Mapping
 {
     public static class DataSource
     {
         public static BindingList<Item> DataSource1 { get; set; }
-        public static BindingList<Item> DataSource2 { get; set; }
+        /// <summary>
+        /// 主数据
+        /// </summary>
+        public static List<Institution> Institutions { get; set; }
+        
         public static Item SelectedItem { get; set; }
         public static Place SelectedPlace { get; set; }
     }

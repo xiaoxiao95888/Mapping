@@ -15,16 +15,16 @@ namespace Mapping.Helper
 {
     public static class ParticipleHelp
     {
+        const string Key = "c14436C9w1T6F5z150G92gKYdP9YpHgtdE2LaN0I";//讯飞key
         public static async Task Participle()
         {
-            const string key = "c14436C9w1T6F5z150G92gKYdP9YpHgtdE2LaN0I";//讯飞key
             for (var i = 0; i < DataSource.DataSource1.Count; i++)
             {
                 var name = DataSource.DataSource1[i].Name;
                 var itemId= DataSource.DataSource1[i].Id;
                 DataSource.DataSource1[i].Words.Clear();
                 var url =
-                    $"http://ltpapi.voicecloud.cn/analysis/?api_key={key}&text={name}&pattern=all&format=json";
+                    $"http://ltpapi.voicecloud.cn/analysis/?api_key={Key}&text={name}&pattern=all&format=json";
                 var result = await GetResponseStringAsync(url);
                 var local = Json.Decode(result)[0][0];
                 foreach (var item in local)
@@ -41,6 +41,23 @@ namespace Mapping.Helper
                 SplashScreenManager.Default.SendCommand(WaitForm1.WaitFormCommand.SetProgress1, i);
                 #endregion
             }
+        }
+
+        public static async Task<string[]> GetParticiple(string name)
+        {
+            var url =
+                    $"http://ltpapi.voicecloud.cn/analysis/?api_key={Key}&text={name}&pattern=all&format=json";
+            var result = await GetResponseStringAsync(url);
+            var local = Json.Decode(result)[0][0];
+            var words =new List<string>();
+            if (local.Length != 0)
+            {
+                foreach (var item in local)
+                {
+                    words.Add(item.cont);
+                }
+            }
+            return words.ToArray();
         }
         private static async Task<string> GetResponseStringAsync(string url)
         {

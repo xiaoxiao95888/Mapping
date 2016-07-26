@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.progressBarControl2 = new DevExpress.XtraEditors.ProgressBarControl();
-            this.progressBarControl1 = new DevExpress.XtraEditors.ProgressBarControl();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.progressBarControl1 = new DevExpress.XtraEditors.ProgressBarControl();
             ((System.ComponentModel.ISupportInitialize)(this.progressBarControl2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.progressBarControl1.Properties)).BeginInit();
             this.SuspendLayout();
@@ -44,13 +44,14 @@
             this.progressBarControl2.Size = new System.Drawing.Size(141, 18);
             this.progressBarControl2.TabIndex = 1;
             // 
-            // progressBarControl1
+            // label2
             // 
-            this.progressBarControl1.Location = new System.Drawing.Point(98, 24);
-            this.progressBarControl1.Name = "progressBarControl1";
-            this.progressBarControl1.Properties.ShowTitle = true;
-            this.progressBarControl1.Size = new System.Drawing.Size(141, 18);
-            this.progressBarControl1.TabIndex = 2;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(13, 71);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(77, 12);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "地理信息进度";
             // 
             // label1
             // 
@@ -61,14 +62,13 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "分词进度";
             // 
-            // label2
+            // progressBarControl1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 71);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 12);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "地理信息进度";
+            this.progressBarControl1.Location = new System.Drawing.Point(98, 24);
+            this.progressBarControl1.Name = "progressBarControl1";
+            this.progressBarControl1.Properties.ShowTitle = true;
+            this.progressBarControl1.Size = new System.Drawing.Size(141, 18);
+            this.progressBarControl1.TabIndex = 2;
             // 
             // WaitForm1
             // 
@@ -94,8 +94,8 @@
         #endregion
 
         private DevExpress.XtraEditors.ProgressBarControl progressBarControl2;
-        private DevExpress.XtraEditors.ProgressBarControl progressBarControl1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private DevExpress.XtraEditors.ProgressBarControl progressBarControl1;
     }
 }
