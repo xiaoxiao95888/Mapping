@@ -21,6 +21,8 @@ namespace Mapping.DbModel
         public string Province { get; set; }
         public string City { get; set; }
         public string District { get; set; }
+        public string Words { get; set; }
         public DateTime UpdateTime { get; set; }
+        public string[] JoinWords => Words.Split(',');
     }
 }

@@ -11,6 +11,7 @@ using Mapping.Model;
 using System.Data.Entity;
 using Mapping.Service;
 using DevExpress.XtraSplashScreen;
+using Mapping.DbModel;
 
 namespace Mapping
 {
@@ -35,6 +36,8 @@ namespace Mapping
             DataSource.DataSource1 = new BindingList<Item>();
             DataSource.SelectedItem = new Item();
             DataSource.SelectedPlace = new Place();
+            DataSource.Institutions = new List<Institution>();
+            DbService.InstitutionService = new InstitutionService();
         }
 
         

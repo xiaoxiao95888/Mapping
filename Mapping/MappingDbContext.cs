@@ -11,10 +11,7 @@ namespace Mapping
     public class MappingDbContext : DbContext
     {
         private const string Coon = "Data Source=www.smc-sfe.com;Initial Catalog=Mapping;Persist Security Info=True;User ID=sa;Password=XXXboy123";
-        public DbSet<Institution> Institutions { get; set; }
-
-        
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        public DbSet<Institution> Institutions { get; set; }protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //modelBuilder.Configurations.Add(new LetterMapping());
             //modelBuilder.Configurations.Add(new RetailerMapping());

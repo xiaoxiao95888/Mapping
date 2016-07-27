@@ -31,7 +31,6 @@ namespace Mapping
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.splashScreenManager1 = new DevExpress.XtraSplashScreen.SplashScreenManager(this, typeof(global::Mapping.WaitForm1), true, true);
             this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.appMenu = new DevExpress.XtraBars.Ribbon.ApplicationMenu(this.components);
             this.btn_importexcel = new DevExpress.XtraBars.BarButtonItem();
@@ -143,10 +142,6 @@ namespace Mapping
             ((System.ComponentModel.ISupportInitialize)(this.gridView3)).BeginInit();
             this.SuspendLayout();
             // 
-            // splashScreenManager1
-            // 
-            this.splashScreenManager1.ClosingDelay = 500;
-            // 
             // ribbonControl1
             // 
             this.ribbonControl1.ApplicationButtonDropDownControl = this.appMenu;
@@ -210,6 +205,7 @@ namespace Mapping
             this.barButtonItem4.Id = 7;
             this.barButtonItem4.ImageUri.Uri = "EditDataSource";
             this.barButtonItem4.Name = "barButtonItem4";
+            this.barButtonItem4.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem4_ItemClick);
             // 
             // barButtonItem5
             // 
@@ -217,6 +213,7 @@ namespace Mapping
             this.barButtonItem5.Id = 12;
             this.barButtonItem5.ImageUri.Uri = "Find";
             this.barButtonItem5.Name = "barButtonItem5";
+            this.barButtonItem5.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem5_ItemClick);
             // 
             // ribbonPage1
             // 
@@ -546,7 +543,7 @@ namespace Mapping
             this.ced_participle.Location = new System.Drawing.Point(282, 12);
             this.ced_participle.MenuManager = this.ribbonControl1;
             this.ced_participle.Name = "ced_participle";
-            this.ced_participle.Properties.Caption = "开始分词";
+            this.ced_participle.Properties.Caption = "启用分词";
             this.ced_participle.Size = new System.Drawing.Size(70, 19);
             this.ced_participle.StyleController = this.layoutControl1;
             this.ced_participle.TabIndex = 10;
@@ -949,7 +946,6 @@ namespace Mapping
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
         private DevExpress.XtraBars.BarButtonItem barButtonItem4;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup4;
-        private DevExpress.XtraSplashScreen.SplashScreenManager splashScreenManager1;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;

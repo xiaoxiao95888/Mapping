@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,18 +33,16 @@ namespace Mapping
             SelectExcel();
         }
 
-        private async void barButtonItem2_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-            gridControl1.BeginUpdate();
-            gridControl2.BeginUpdate();
-            SplashScreenManager.ShowForm(this, typeof(WaitForm1), true, true, false);
-            SplashScreenManager.Default.SendCommand(WaitForm1.WaitFormCommand.SetProgressMax, DataSource.DataSource1.Count);
-            await ParticipleHelp.Participle();
-            await LocaltionHelp.Localtion();
-            //Close Wait Form
-            SplashScreenManager.CloseForm(false);
-            gridControl1.EndUpdate();
-            gridControl2.EndUpdate();
+        private void barButtonItem2_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {          
+            //并行
+            SplashScreenTool.ShowSplashScreen(typeof(WaitForm1));
+            new Action(async () =>
+            {
+                await ParticipleHelp.Participle();
+                await LocaltionHelp.Localtion();
+                SplashScreenManager.CloseForm(true);
+            })();
         }
 
         public void Init()
@@ -55,19 +54,15 @@ namespace Mapping
         /// </summary>
         private async void LoadInstitutions()
         {
-            //SplashScreenManager.ShowForm(this, typeof(WaitForm2), true, true, false);
-            //var result = await GetInstitutions();
-            //DataSource.Institutions = result;
-            //SplashScreenManager.CloseForm(false);
-            SplashScreenManager.ShowForm(this, typeof(SplashScreen1), true, true, false);
+            SplashScreenTool.ShowSplashScreen(typeof(SplashScreen1));
+            //.ShowForm(this, typeof(SplashScreen1), true, true, false);
             DataSource.Institutions = GetInstitutions().Result;
             gridControl3.DataSource = DataSource.Institutions;
             SplashScreenManager.CloseForm(false);
         }
         private static Task<List<Institution>> GetInstitutions()
         {
-            var institutionService = new InstitutionService();
-            return Task.Run(() => institutionService.GetAll().ToList());
+            return Task.Run(() => DbService.InstitutionService.GetAll().ToList());
         }
         /// <summary>
         /// 选择excel
@@ -185,13 +180,24 @@ namespace Mapping
                         .OrderByDescending(n => n.number)
                         .Select(n => n.item);
                 }
-
             }
             gridControl3.DataSource = data;
         }
         private void ced_CheckStateChanged(object sender, EventArgs e)
         {
             FilterIns();
+        }
+
+        private void barButtonItem5_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            var autoprocessForm = new AutoprocessForm { StartPosition = FormStartPosition.CenterParent };
+            autoprocessForm.ShowDialog();
+        }
+
+        private void barButtonItem4_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            var baseDataForm = new BaseDataForm { StartPosition = FormStartPosition.CenterParent };
+            baseDataForm.ShowDialog();
         }
 
 
