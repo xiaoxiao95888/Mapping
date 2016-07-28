@@ -19,12 +19,12 @@ namespace Mapping.Service
 
         public IQueryable<Institution> GetAll()
         {
-            return DbContext.Institutions.Take(10);
+            return DbContext.Institutions.Take(100);
         }
 
         public BindingList<Institution> GetAllBindingList()
         {
-            DbContext.Institutions.Load();
+            DbContext.Institutions.Take(100).Load();
             return DbContext.Institutions.Local.ToBindingList();
         } 
 

@@ -21,34 +21,35 @@ namespace Mapping.View
 
         #region Overrides
 
-        //public override void SetCaption(string caption)
-        //{
-        //    base.SetCaption(caption);
-        //    this.progressPanel1.Caption = caption;
-        //}
+        public override void SetCaption(string caption)
+        {
+            base.SetCaption(caption);
+            this.Caption.Text = caption;
+        }
         //public override void SetDescription(string description)
         //{
         //    base.SetDescription(description);
-        //    this.progressPanel1.Description = description;
+        //    this.label1.Text = description;
         //}
         public override void ProcessCommand(Enum cmd, object arg)
         {
             base.ProcessCommand(cmd, arg);
-            WaitFormCommand command = (WaitFormCommand)cmd;
-            if (command == WaitFormCommand.SetProgress1)
+            var command = (WaitFormCommand)cmd;
+            switch (command)
             {
-                int pos = (int)arg;
-                progressBarControl1.Position = pos;
-            }
-            if (command == WaitFormCommand.SetProgress1)
-            {
-                int pos = (int)arg;
-                progressBarControl1.Position = pos;
-            }
-            if (command == WaitFormCommand.SetProgressMax)
-            {
-                int pos = (int)arg;
-                progressBarControl1.Properties.Maximum = pos;
+                case WaitFormCommand.SetProgress:
+                    var pos = (int)arg;
+                    progressBarControl1.Position = pos;
+                    break;
+                case WaitFormCommand.SetTotal:
+                    Total.Text = arg.ToString();
+                    break;
+                case WaitFormCommand.SetCurrent:
+                    Current.Text= arg.ToString();
+                    break;
+                case WaitFormCommand.SetSucceed:
+                    Succeed.Text = arg.ToString();
+                    break;
             }
         }
 
@@ -56,10 +57,10 @@ namespace Mapping.View
 
         public enum WaitFormCommand
         {
-            SetProgress1,
-            SetProgressMax,
-            Command2,
-            Command3
+            SetProgress,
+            SetTotal,
+            SetCurrent,
+            SetSucceed
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Mapping
         private void barButtonItem2_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {          
             //并行
-            SplashScreenTool.ShowSplashScreen(typeof(WaitForm1));
+            SplashScreenTool.ShowSplashScreen(this,typeof(WaitForm1));
             new Action(async () =>
             {
                 await ParticipleHelp.Participle();
@@ -54,8 +54,7 @@ namespace Mapping
         /// </summary>
         private async void LoadInstitutions()
         {
-            SplashScreenTool.ShowSplashScreen(typeof(SplashScreen1));
-            //.ShowForm(this, typeof(SplashScreen1), true, true, false);
+            SplashScreenTool.ShowSplashScreen(this,typeof(SplashScreen1));//.ShowForm(this, typeof(SplashScreen1), true, true, false);
             DataSource.Institutions = GetInstitutions().Result;
             gridControl3.DataSource = DataSource.Institutions;
             SplashScreenManager.CloseForm(false);

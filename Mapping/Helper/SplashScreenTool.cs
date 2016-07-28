@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,11 +19,12 @@ namespace Mapping.Helper
         /// <summary>
         /// ShowSplashScreen
         /// </summary>
+        /// <param name="parentForm"></param>
         /// <param name="type">WaitForm</param>
-        public static void ShowSplashScreen(Type type)
+        public static void ShowSplashScreen(Form parentForm, Type type)
         {
             CloseSplashScreen();
-            SplashScreenManager.ShowForm(null,type, FadeIn, FadeOut, ThrowExceptionIfIsAlreadyShown);
+            SplashScreenManager.ShowForm(parentForm, type, FadeIn, FadeOut, SplashFormStartPosition.Default, new Point(0, 0), ParentFormState.Locked);
         }
         
         /// <summary>
