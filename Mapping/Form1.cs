@@ -34,14 +34,15 @@ namespace Mapping
         }
 
         private void barButtonItem2_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {          
+        {
             //并行
-            SplashScreenTool.ShowSplashScreen(this,typeof(WaitForm1));
+            SplashScreenTool.ShowSplashScreen(this, typeof(WaitForm1));
             new Action(async () =>
             {
                 await ParticipleHelp.Participle();
                 await LocaltionHelp.Localtion();
-                SplashScreenManager.CloseForm(true);
+                SplashScreenTool.CloseSplashScreen();
+                gridView1.RefreshData();
             })();
         }
 
@@ -54,14 +55,27 @@ namespace Mapping
         /// </summary>
         private async void LoadInstitutions()
         {
-            SplashScreenTool.ShowSplashScreen(this,typeof(SplashScreen1));//.ShowForm(this, typeof(SplashScreen1), true, true, false);
-            DataSource.Institutions = GetInstitutions().Result;
-            gridControl3.DataSource = DataSource.Institutions;
+            SplashScreenTool.ShowSplashScreen(this, typeof(SplashScreen1));//.ShowForm(this, typeof(SplashScreen1), true, true, false);
+            DataSource.InstitutionModels = GetInstitutions().Result;
+            gridControl3.DataSource = DataSource.InstitutionModels;
             SplashScreenManager.CloseForm(false);
         }
-        private static Task<List<Institution>> GetInstitutions()
+        private static Task<List<InstitutionModel>> GetInstitutions()
         {
-            return Task.Run(() => DbService.InstitutionService.GetAll().ToList());
+            return Task.Run(() => DbService.InstitutionService.GetAll().Select(n => new InstitutionModel
+            {
+                Id = n.Id,
+                Name = n.Name,
+                Type = n.Type,
+                TypeCode = n.TypeCode,
+                Address = n.Address,
+                Location = n.Location,
+                Province = n.Province,
+                City = n.City,
+                District = n.District,
+                Words = n.Words,
+                UpdateTime = n.UpdateTime
+            }).ToList());
         }
         /// <summary>
         /// 选择excel
@@ -112,9 +126,11 @@ namespace Mapping
             {
                 //数据源中的Index
                 var itemId = view.GetRowCellValue(info.RowHandle, "Id") as Guid?;
-
                 DataSource.SelectedItem = DataSource.DataSource1.FirstOrDefault(n => n.Id == itemId);
-                this.gridControl2.DataSource = DataSource.SelectedItem.Places;
+                if (DataSource.SelectedItem != null)
+                {
+                    this.gridControl2.DataSource = DataSource.SelectedItem.Places;
+                }
             }
         }
 
@@ -154,8 +170,7 @@ namespace Mapping
                     ced_type.Text = DataSource.SelectedPlace.TypeCode;
                     ced_province.Visible =
                         ced_city.Visible = ced_county.Visible = ced_type.Visible = ced_participle.Visible = btn_confirm.Visible = true;
-                    //ced_province.Checked =
-                    //    ced_city.Checked = ced_county.Checked = ced_type.Checked = ced_participle.Checked = true;
+                    
                     FilterIns();
                 }
             }
@@ -163,11 +178,11 @@ namespace Mapping
 
         private async void FilterIns()
         {
-            var data = DataSource.Institutions.Where(n =>
-                (!ced_province.Checked || (n.Province == ced_province.Text))
-                && (!ced_city.Checked || (n.City == ced_city.Text))
-                && (!ced_county.Checked || (n.District == ced_county.Text))
-                && (!ced_type.Checked || (n.TypeCode == ced_type.Text))
+            var data = DataSource.InstitutionModels.Where(n =>
+                (!ced_province.Checked || (n.Province == DataSource.SelectedPlace.Province))
+                && (!ced_city.Checked || (n.City == DataSource.SelectedPlace.City))
+                && (!ced_county.Checked || (n.District == DataSource.SelectedPlace.District))
+                && (!ced_type.Checked || (n.TypeCode == DataSource.SelectedPlace.TypeCode))
                 );
             if (ced_participle.Checked)
             {

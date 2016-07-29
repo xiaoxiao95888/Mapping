@@ -16,11 +16,11 @@ namespace Mapping.View
 {
     public partial class LocationForm : DevExpress.XtraEditors.XtraForm
     {
-        public List<Institution> Institutions { get; set; }
+        public List<InstitutionModel> InstitutionModels { get; set; }
         public List<Place> Place { get; set; }
-        public LocationForm(List<Institution> institutions, List<Place> places)
+        public LocationForm(List<InstitutionModel> institutionModels, List<Place> places)
         {
-            this.Institutions = institutions;
+            this.InstitutionModels = institutionModels;
             this.Place = places;
             InitializeComponent();
             Init();
@@ -28,7 +28,7 @@ namespace Mapping.View
 
         public void Init()
         {
-            gridControl1.DataSource = Institutions;
+            gridControl1.DataSource = InstitutionModels;
         }
        
         /// <summary>
@@ -60,8 +60,7 @@ namespace Mapping.View
                 var placeId = view.GetRowCellValue(info.RowHandle, "Id").ToString();
                 var place = Place.FirstOrDefault(n => n.Id == placeId);
                 if (place != null)
-                {
-                    var item = Institutions.FirstOrDefault(n => n.Id == place.ItemId);
+                {var item = InstitutionModels.FirstOrDefault(n => n.Id == place.ItemId);
                     if (item != null)
                     {
                         item.TypeCode = place.TypeCode;

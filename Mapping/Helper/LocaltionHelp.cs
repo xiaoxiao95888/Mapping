@@ -87,37 +87,6 @@ namespace Mapping.Helper
             return null;
            
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static async Task GetPlace(string name, string citycode)
-        {
-            var url =
-                  $"http://restapi.amap.com/v3/place/text?key={Key}&keywords={name}&types=&city={citycode}&children=1&offset=20&page=1&extensions=base";
-            var result = await GetResponseStringAsync(url);
-            var json = Json.Decode(result);
-            if (json != null && json.pois.Length != 0)
-            {
-                DataSource.SelectedItem.Places = new List<Place>();
-                foreach (var item in json.pois)
-                {
-                    DataSource.SelectedItem.Places.Add(new Place
-                    {
-                        Id = item.id,
-                        ItemId = DataSource.SelectedItem.Id,
-                        Name = item.name,
-                        Type = item.type,
-                        TypeCode = item.typecode,
-                        Address = item.address,
-                        Location = item.location,
-                        Province = item.pname,
-                        City = item.cityname,
-                        District = item.adname
-                    });
-                }
-            }
-        }
         public static async Task<List<Place>> GetOnePlace(string name, string citycode,Guid itemId)
         {
             var places = new List<Place>();

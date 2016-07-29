@@ -36,7 +36,7 @@ namespace Mapping
             DataSource.DataSource1 = new BindingList<Item>();
             DataSource.SelectedItem = new Item();
             DataSource.SelectedPlace = new Place();
-            DataSource.Institutions = new List<Institution>();
+            DataSource.InstitutionModels = new List<InstitutionModel>();
             DbService.InstitutionService = new InstitutionService();
         }
 

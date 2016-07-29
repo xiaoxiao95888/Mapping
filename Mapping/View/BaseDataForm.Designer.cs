@@ -35,6 +35,7 @@
             this.bar2 = new DevExpress.XtraBars.Bar();
             this.barLargeButtonItem1 = new DevExpress.XtraBars.BarLargeButtonItem();
             this.barLargeButtonItem2 = new DevExpress.XtraBars.BarLargeButtonItem();
+            this.barLargeButtonItem3 = new DevExpress.XtraBars.BarLargeButtonItem();
             this.bar3 = new DevExpress.XtraBars.Bar();
             this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
@@ -51,7 +52,6 @@
             this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.splashScreenManager1 = new DevExpress.XtraSplashScreen.SplashScreenManager(this, typeof(global::Mapping.View.ParticipleWaitForm), true, true);
-            this.barLargeButtonItem3 = new DevExpress.XtraBars.BarLargeButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
@@ -117,6 +117,15 @@
             this.barLargeButtonItem2.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barLargeButtonItem2.LargeGlyph")));
             this.barLargeButtonItem2.Name = "barLargeButtonItem2";
             this.barLargeButtonItem2.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barLargeButtonItem2_ItemClick);
+            // 
+            // barLargeButtonItem3
+            // 
+            this.barLargeButtonItem3.Caption = "保存到数据库";
+            this.barLargeButtonItem3.Glyph = ((System.Drawing.Image)(resources.GetObject("barLargeButtonItem3.Glyph")));
+            this.barLargeButtonItem3.Id = 3;
+            this.barLargeButtonItem3.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barLargeButtonItem3.LargeGlyph")));
+            this.barLargeButtonItem3.Name = "barLargeButtonItem3";
+            this.barLargeButtonItem3.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barLargeButtonItem3_ItemClick);
             // 
             // bar3
             // 
@@ -266,14 +275,6 @@
             // splashScreenManager1
             // 
             this.splashScreenManager1.ClosingDelay = 500;
-            // 
-            // barLargeButtonItem3
-            // 
-            this.barLargeButtonItem3.Caption = "保存到数据库";
-            this.barLargeButtonItem3.Glyph = ((System.Drawing.Image)(resources.GetObject("barLargeButtonItem3.Glyph")));
-            this.barLargeButtonItem3.Id = 3;
-            this.barLargeButtonItem3.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barLargeButtonItem3.LargeGlyph")));
-            this.barLargeButtonItem3.Name = "barLargeButtonItem3";
             // 
             // BaseDataForm
             // 

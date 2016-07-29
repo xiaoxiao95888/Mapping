@@ -16,7 +16,7 @@ namespace Mapping
         /// <summary>
         /// 主数据
         /// </summary>
-        public static List<Institution> Institutions { get; set; }
+        public static List<InstitutionModel> InstitutionModels { get; set; }
         public static Item SelectedItem { get; set; }
         public static Place SelectedPlace { get; set; }
     }

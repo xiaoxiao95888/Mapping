@@ -21,10 +21,10 @@ namespace Mapping.View
 
         private void Init()
         {
-            gridControl1.DataSource = DataSource.Institutions;
+            gridControl1.DataSource = DataSource.InstitutionModels;
         }
 
-        private IEnumerable<Institution> GetSelected()
+        private IEnumerable<InstitutionModel> GetSelected()
         {
             var selectedHandle = gridView1.GetSelectedRows();
             var selectedIds = selectedHandle.Select(handle => gridView1.GetListSourceRowCellValue(handle, "Id"));
@@ -33,11 +33,10 @@ namespace Mapping.View
             //             from item in r1.DefaultIfEmpty()
             //             select item;
             var result =
-                selectedIds.GroupJoin(DataSource.Institutions, id => id.ToString(), source => source.Id.ToString(),
+                selectedIds.GroupJoin(DataSource.InstitutionModels, id => id.ToString(), source => source.Id.ToString(),
                     (id, r1) => new { id, r1 }).SelectMany(@t => @t.r1.DefaultIfEmpty());
 
             return result;
-
         }
         /// <summary>
         /// 分词
@@ -56,7 +55,7 @@ namespace Mapping.View
         {
             SplashScreenTool.ShowSplashScreen(this, typeof(ParticipleWaitForm));
             SplashScreenTool.SetCaption("地理进度");
-            var places= await Localtion();
+            var places = await Localtion();
             var form = new LocationForm(GetSelected().ToList(), places)
             {
                 StartPosition = FormStartPosition.CenterParent
@@ -106,17 +105,53 @@ namespace Mapping.View
                 {
                     SplashScreenTool.SendCommand(ParticipleWaitForm.WaitFormCommand.SetCurrent, i + 1);
                     var city = filters[i].City + filters[i].District;
-                    var result = await LocaltionHelp.GetOnePlace(filters[i].Name,city, filters[i].Id);if (result.Any())
+                    var result = await LocaltionHelp.GetOnePlace(filters[i].Name, city, filters[i].Id); if (result.Any())
                     {
                         places.AddRange(result);
                         //DbService.InstitutionService.Update();
                         SplashScreenTool.SendCommand(ParticipleWaitForm.WaitFormCommand.SetSucceed, i + 1);
                     }
                     SplashScreenTool.SendCommand(ParticipleWaitForm.WaitFormCommand.SetProgress,
-                        Convert.ToInt32((i + 1)/(decimal) num*100));
+                        Convert.ToInt32((i + 1) / (decimal)num * 100));
                 }
             }
             return places;
+        }
+        private async Task SaveBase()
+        {
+            var items = GetSelected().ToList();
+            var i = 0;
+            var sum = items.Count;
+            foreach (var item in items)
+            {
+                i++;
+                SplashScreenTool.SendCommand(SaveBaseDataWaitForm.WaitFormCommand.SetProgress,
+                    Convert.ToInt32((i) / (decimal)sum * 100));
+                var data = DbService.InstitutionService.GetInstitution(item.Id);
+
+                if (data != null)
+                {
+                    SplashScreenTool.SendCommand(SaveBaseDataWaitForm.WaitFormCommand.SetInstitution,
+                        data.Name);
+                    data.Address = item.Address;
+                    data.City = item.City;
+                    data.District = item.District;
+                    data.Location = item.Location;
+                    data.Province = item.Province;
+                    data.TypeCode = item.TypeCode;
+                    data.UpdateTime = DateTime.Now;
+                    data.Words = item.Words;
+                    await DbService.InstitutionService.SyncUpdate();
+                }
+            }
+        }
+        private async void barLargeButtonItem3_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            SplashScreenTool.ShowSplashScreen(this, typeof(SaveBaseDataWaitForm));
+            SplashScreenTool.SendCommand(SaveBaseDataWaitForm.WaitFormCommand.SetCaption, "保存进度");
+            await SaveBase();
+            SplashScreenTool.CloseSplashScreen();
+
         }
     }
 }

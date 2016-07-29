@@ -25,20 +25,16 @@ namespace Mapping.View
         {
             textBox1.Text = DataSource.SelectedItem.Name;
         }
-
+        private List<Place> Places { get; set; } 
         private async void BindGrid()
         {
             var city = searchLookUpEdit1.EditValue?.ToString();
             var name = textBox1.Text;
             if (string.IsNullOrEmpty(name) == false && string.IsNullOrEmpty(city) == false)
             {
-                await LocaltionHelp.GetPlace(name, city);
+                Places = await LocaltionHelp.GetOnePlace(name, city, DataSource.SelectedItem.Id);
+                gridControl1.DataSource = Places;
             }
-            else
-            {
-                DataSource.SelectedItem.Places = new List<Place>();
-            }
-            gridControl1.DataSource = DataSource.SelectedItem.Places;
         }
 
         private async void TextBoxTextChange()
@@ -63,6 +59,32 @@ namespace Mapping.View
         private void searchLookUpEdit1_EditValueChanged(object sender, EventArgs e)
         {
             BindGrid();
+        }
+
+        private void gridView1_SelectionChanged(object sender, DevExpress.Data.SelectionChangedEventArgs e)
+        {
+            var items = GetSelected().ToList();
+            if (items.Any())
+            {
+                DataSource.SelectedItem.Places = items;}
+        }
+        private IEnumerable<Place> GetSelected()
+        {
+            if (Places != null)
+            {
+                var selectedHandle = gridView1.GetSelectedRows();
+                var selectedIds = selectedHandle.Select(handle => gridView1.GetListSourceRowCellValue(handle, "Id"));
+                //var result = from id in selectedIds
+                //             join source in DataSource.Institutions on id.ToString() equals source.Id.ToString() into r1
+                //             from item in r1.DefaultIfEmpty()
+                //             select item;
+                var result =
+                    selectedIds.GroupJoin(Places, id => id.ToString(), source => source.Id.ToString(),
+                        (id, r1) => new {id, r1}).SelectMany(@t => @t.r1.DefaultIfEmpty());
+
+                return result;
+            }
+            return null;
         }
     }
 }
