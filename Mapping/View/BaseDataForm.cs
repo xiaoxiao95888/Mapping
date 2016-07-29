@@ -105,7 +105,8 @@ namespace Mapping.View
                 {
                     SplashScreenTool.SendCommand(ParticipleWaitForm.WaitFormCommand.SetCurrent, i + 1);
                     var city = filters[i].City + filters[i].District;
-                    var result = await LocaltionHelp.GetOnePlace(filters[i].Name, city, filters[i].Id); if (result.Any())
+                    var result = await LocaltionHelp.GetOnePlace(filters[i].Name, city, filters[i].TypeCode, filters[i].Id, 20);
+                    if (result.Any())
                     {
                         places.AddRange(result);
                         //DbService.InstitutionService.Update();

@@ -1,20 +1,14 @@
 ﻿using Mapping.Model;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Data.Entity;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using DevExpress.XtraSplashScreen;
-using Mapping.DbModel;
 using Mapping.Helper;
-using Mapping.Service;
 using Mapping.View;
 
 namespace Mapping
@@ -32,20 +26,75 @@ namespace Mapping
         {
             SelectExcel();
         }
+        private IEnumerable<Item> GetSelected()
+        {
+            var selectedHandle = MasterView.GetSelectedRows();
+            var selectedIds = selectedHandle.Select(handle => MasterView.GetListSourceRowCellValue(handle, "Id"));
+            //var result = from id in selectedIds
+            //             join source in DataSource.Institutions on id.ToString() equals source.Id.ToString() into r1
+            //             from item in r1.DefaultIfEmpty()
+            //             select item;
+            var result =
+                selectedIds.GroupJoin(DataSource.DataSource1, id => id.ToString(), source => source.Id.ToString(),
+                    (id, r1) => new { id, r1 }).SelectMany(@t => @t.r1.DefaultIfEmpty());
 
+            return result;
+        }
         private void barButtonItem2_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             //并行
             SplashScreenTool.ShowSplashScreen(this, typeof(WaitForm1));
+            var items = GetSelected().ToList();
+            var task1 = Segmentation(items);
+            var task2 = Localtion(items);
             new Action(async () =>
             {
-                await ParticipleHelp.Participle();
-                await LocaltionHelp.Localtion();
+                await task1;
+                await task2;
                 SplashScreenTool.CloseSplashScreen();
-                gridView1.RefreshData();
+                MasterView.RefreshData();
+                SubView.RefreshData();
             })();
         }
-
+        //分词
+        public async Task Segmentation(List<Item> items)
+        {
+            var num = items.Count;
+            var i = 0;
+            foreach (var item in items)
+            {
+                i++;
+                var words = await ParticipleHelp.GetParticiple(item.Name);
+                item.Words = string.Join(",", words);
+                SplashScreenTool.SendCommand(WaitForm1.WaitFormCommand.SetProgress1,
+                    Convert.ToInt32(i / (decimal)num * 100));
+            }
+        }
+        //地理信息
+        public async Task Localtion(List<Item> items)
+        {
+            var num = items.Count;
+            var i = 0;
+            foreach (var item in items)
+            {
+                i++;
+                item.Places =
+                       await LocaltionHelp.GetOnePlace(item.Name, item.City + item.District, item.TypeCode, item.Id);
+                //默认取值第一个
+                var firstPlace = item.Places.FirstOrDefault();
+                if (firstPlace!=null)
+                {
+                    item.Province = firstPlace.Province;
+                    item.City = firstPlace.City;
+                    item.District = firstPlace.District;
+                    item.Type = firstPlace.Type;
+                    item.TypeCode = firstPlace.TypeCode;
+                    item.Address = firstPlace.Address;
+                }
+                SplashScreenTool.SendCommand(WaitForm1.WaitFormCommand.SetProgress2,
+                    Convert.ToInt32(i / (decimal)num * 100));
+            }
+        }
         public void Init()
         {
             this.gridControl1.DataSource = DataSource.DataSource1;
@@ -57,7 +106,7 @@ namespace Mapping
         {
             SplashScreenTool.ShowSplashScreen(this, typeof(SplashScreen1));//.ShowForm(this, typeof(SplashScreen1), true, true, false);
             DataSource.InstitutionModels = GetInstitutions().Result;
-            gridControl3.DataSource = DataSource.InstitutionModels;
+            //gridControl3.DataSource = DataSource.InstitutionModels;
             SplashScreenManager.CloseForm(false);
         }
         private static Task<List<InstitutionModel>> GetInstitutions()
@@ -94,30 +143,96 @@ namespace Mapping
                         {
                             n.Id = Guid.NewGuid();
                             n.Places = new List<Place>();
-                            n.Words = new List<Word>();
                         });
                         DataSource.DataSource1.Clear();
                         foreach (var item in result)
                         {
                             DataSource.DataSource1.Add(item);
                         }
-                        DevExpress.XtraEditors.XtraMessageBox.Show($"导入{DataSource.DataSource1.Count}条数据", "提示");
+                        XtraMessageBox.Show($"导入{DataSource.DataSource1.Count}条数据", "提示");
 
                     }
                     catch (Exception ex)
                     {
-                        DevExpress.XtraEditors.XtraMessageBox.Show("导入失败", "提示");
+                        XtraMessageBox.Show("导入失败", "提示");
                     }
+                    MasterView.RefreshData();
                 }
             }
         }
+        //展开所有
+        //private void sbExpandDetails_Click()
+        //{
+        //    gridView1.BeginUpdate();
+        //    try
+        //    {
+        //        for (int i = 0; i < gridView1.RowCount; i++)
+        //            gridView1.SetMasterRowExpanded(i, true);
+        //    }
+        //    finally
+        //    {
+        //        gridView1.EndUpdate();
+        //    }
+        //}
 
         private void barButtonItem1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
 
         }
+      
 
-        private void gridView1_Click(object sender, EventArgs e)
+        private void barButtonItem3_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            LoadInstitutions();
+        }
+        private void barButtonItem5_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            var autoprocessForm = new AutoprocessForm { StartPosition = FormStartPosition.CenterParent };
+            autoprocessForm.ShowDialog();
+        }
+
+        private void barButtonItem4_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            var baseDataForm = new BaseDataForm { StartPosition = FormStartPosition.CenterParent };
+            baseDataForm.ShowDialog();
+        }
+        //选中搜索的结果
+        private void SubView_Click(object sender, EventArgs e)
+        {
+            var view = (GridView)sender;
+            var pt = view.GridControl.PointToClient(MousePosition);
+            var info = view.CalcHitInfo(pt);
+            if (info.InRow || info.InRowCell)
+            {
+                //数据源中的Index
+                var placeId = view.GetRowCellValue(info.RowHandle, "Id").ToString();
+                var place =
+                    DataSource.DataSource1.SelectMany(n => n.Places).FirstOrDefault(n => n.Id == placeId);
+                if (place != null)
+                {
+                    var item = DataSource.DataSource1.FirstOrDefault(n => n.Id == place.ItemId);
+                    if (item != null)
+                    {
+                        item.Province = place.Province;
+                        item.City = place.City;
+                        item.District = place.District;
+                        item.TypeCode = place.TypeCode;
+                        item.Type = place.Type;
+                        item.Address = place.Address;
+                        MasterView.RefreshData();
+                    }
+
+                }
+                
+            }
+        }
+        
+        private void MasterView_DoubleClick(object sender, EventArgs e)
         {
             var view = (GridView)sender;
             var pt = view.GridControl.PointToClient(MousePosition);
@@ -129,89 +244,13 @@ namespace Mapping
                 DataSource.SelectedItem = DataSource.DataSource1.FirstOrDefault(n => n.Id == itemId);
                 if (DataSource.SelectedItem != null)
                 {
-                    this.gridControl2.DataSource = DataSource.SelectedItem.Places;
+                    if (DataSource.SelectedItem.Places != null)
+                    {
+                        var manualForm = new ManualForm { StartPosition = FormStartPosition.CenterParent };
+                        manualForm.ShowDialog();
+                    }
                 }
             }
-        }
-
-        private void barButtonItem3_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-            if (DataSource.SelectedItem.Places != null)
-            {
-                var manualForm = new ManualForm { StartPosition = FormStartPosition.CenterParent };
-                manualForm.ShowDialog();
-            }
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            LoadInstitutions();
-        }
-        /// <summary>
-        /// 选择一条Place
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void targetGridView_Click(object sender, EventArgs e)
-        {
-            var view = (GridView)sender;
-            var pt = view.GridControl.PointToClient(MousePosition);
-            var info = view.CalcHitInfo(pt);
-            if (info.InRow || info.InRowCell)
-            {
-                //数据源中的Index
-                var placeId = view.GetRowCellValue(info.RowHandle, "Id").ToString();
-                DataSource.SelectedPlace = DataSource.SelectedItem.Places.FirstOrDefault(n => n.Id == placeId);
-                if (DataSource.SelectedPlace != null)
-                {
-                    ced_province.Text = DataSource.SelectedPlace.Province;
-                    ced_city.Text = DataSource.SelectedPlace.City;
-                    ced_county.Text = DataSource.SelectedPlace.District;
-                    ced_type.Text = DataSource.SelectedPlace.TypeCode;
-                    ced_province.Visible =
-                        ced_city.Visible = ced_county.Visible = ced_type.Visible = ced_participle.Visible = btn_confirm.Visible = true;
-                    
-                    FilterIns();
-                }
-            }
-        }
-
-        private async void FilterIns()
-        {
-            var data = DataSource.InstitutionModels.Where(n =>
-                (!ced_province.Checked || (n.Province == DataSource.SelectedPlace.Province))
-                && (!ced_city.Checked || (n.City == DataSource.SelectedPlace.City))
-                && (!ced_county.Checked || (n.District == DataSource.SelectedPlace.District))
-                && (!ced_type.Checked || (n.TypeCode == DataSource.SelectedPlace.TypeCode))
-                );
-            if (ced_participle.Checked)
-            {
-                var words = await ParticipleHelp.GetParticiple(DataSource.SelectedPlace.Name);
-                if (words.Any())
-                {
-                    data =
-                    data.Select(n => new { number = words.Count(x => n.Name.Contains(x)), item = n })
-                        .OrderByDescending(n => n.number)
-                        .Select(n => n.item);
-                }
-            }
-            gridControl3.DataSource = data;
-        }
-        private void ced_CheckStateChanged(object sender, EventArgs e)
-        {
-            FilterIns();
-        }
-
-        private void barButtonItem5_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-            var autoprocessForm = new AutoprocessForm { StartPosition = FormStartPosition.CenterParent };
-            autoprocessForm.ShowDialog();
-        }
-
-        private void barButtonItem4_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-            var baseDataForm = new BaseDataForm { StartPosition = FormStartPosition.CenterParent };
-            baseDataForm.ShowDialog();
         }
 
 

@@ -18,7 +18,7 @@ namespace Mapping
         /// </summary>
         public static List<InstitutionModel> InstitutionModels { get; set; }
         public static Item SelectedItem { get; set; }
-        public static Place SelectedPlace { get; set; }
+        //public static Place SelectedPlace { get; set; }
     }
 
     public static class DbService

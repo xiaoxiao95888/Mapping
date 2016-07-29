@@ -30,9 +30,12 @@ namespace Mapping.View
         {
             var city = searchLookUpEdit1.EditValue?.ToString();
             var name = textBox1.Text;
-            if (string.IsNullOrEmpty(name) == false && string.IsNullOrEmpty(city) == false)
+            if (string.IsNullOrEmpty(name) == false)
             {
-                Places = await LocaltionHelp.GetOnePlace(name, city, DataSource.SelectedItem.Id);
+                Places =
+                    await
+                        LocaltionHelp.GetOnePlace(name, city, DataSource.SelectedItem.TypeCode,
+                            DataSource.SelectedItem.Id, 20);
                 gridControl1.DataSource = Places;
             }
         }
@@ -42,7 +45,7 @@ namespace Mapping.View
             var text = textBox1.Text;
             if (!string.IsNullOrEmpty(text))
             {
-                var result = await LocaltionHelp.GetSuggestion(textBox1.Text);
+                var result = await LocaltionHelp.GetSuggestion(textBox1.Text, DataSource.SelectedItem.TypeCode);
                 searchLookUpEdit1.Properties.DataSource = result;
             }
             else
@@ -66,7 +69,18 @@ namespace Mapping.View
             var items = GetSelected().ToList();
             if (items.Any())
             {
-                DataSource.SelectedItem.Places = items;}
+                var firstPlace = items.FirstOrDefault();
+                DataSource.SelectedItem.Places = items;
+                if (firstPlace != null)
+                {
+                    DataSource.SelectedItem.Province = firstPlace.Province;
+                    DataSource.SelectedItem.City = firstPlace.City;
+                    DataSource.SelectedItem.District = firstPlace.District;
+                    DataSource.SelectedItem.TypeCode = firstPlace.TypeCode;
+                    DataSource.SelectedItem.Type = firstPlace.Type;
+                    DataSource.SelectedItem.Address = firstPlace.Address;
+                }
+            }
         }
         private IEnumerable<Place> GetSelected()
         {

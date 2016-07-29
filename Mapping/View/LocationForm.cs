@@ -73,5 +73,10 @@ namespace Mapping.View
                 }
             }
         }
+        //手动获取
+        private void barLargeButtonItem1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+
+        }
     }
 }

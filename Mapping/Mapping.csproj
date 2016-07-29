@@ -212,12 +212,6 @@
     <Compile Include="View\MatchForm.Designer.cs">
       <DependentUpon>MatchForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\ParticipleLocaltionWaitForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\ParticipleLocaltionWaitForm.Designer.cs">
-      <DependentUpon>ParticipleLocaltionWaitForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="View\ParticipleWaitForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -267,9 +261,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\MatchForm.resx">
       <DependentUpon>MatchForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\ParticipleLocaltionWaitForm.resx">
-      <DependentUpon>ParticipleLocaltionWaitForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\ParticipleWaitForm.resx">
       <DependentUpon>ParticipleWaitForm.cs</DependentUpon>

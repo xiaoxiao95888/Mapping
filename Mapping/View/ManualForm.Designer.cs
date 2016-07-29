@@ -211,7 +211,7 @@
             // gridColumn9
             // 
             this.gridColumn9.Caption = "城市";
-            this.gridColumn9.FieldName = "City ";
+            this.gridColumn9.FieldName = "City";
             this.gridColumn9.Name = "gridColumn9";
             this.gridColumn9.OptionsColumn.AllowEdit = false;
             this.gridColumn9.Visible = true;
