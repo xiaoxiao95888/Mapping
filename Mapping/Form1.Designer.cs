@@ -322,7 +322,7 @@ namespace Mapping
             // 
             // barButtonItem5
             // 
-            this.barButtonItem5.Caption = "自动匹配";
+            this.barButtonItem5.Caption = "开始匹配";
             this.barButtonItem5.Id = 12;
             this.barButtonItem5.ImageUri.Uri = "Find";
             this.barButtonItem5.Name = "barButtonItem5";
