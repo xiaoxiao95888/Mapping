@@ -9,7 +9,7 @@ using DevExpress.Xpo;
 namespace Mapping.DbModel
 {
     [Table("Institutions")]
-    public class Institution
+    public class Institution: IDtStamped
     {
         [Key]
         public Guid Id { get; set; }
@@ -23,6 +23,6 @@ namespace Mapping.DbModel
         public string District { get; set; }
         public string Words { get; set; }
         public DateTime UpdateTime { get; set; }
-        public string[] JoinWords => Words.Split(',');
+        public string[] JoinWords => string.IsNullOrEmpty(Words) ? null : Words.Split(',');
     }
 }

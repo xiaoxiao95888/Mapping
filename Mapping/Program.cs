@@ -37,8 +37,9 @@ namespace Mapping
             DataSource.SelectedItem = new Item();
             DataSource.InstitutionModels = new List<InstitutionModel>();
             DbService.InstitutionService = new InstitutionService();
+            DataSource.Matcheds = new BindingList<Matched>();
         }
-
         
     }
+   
 }

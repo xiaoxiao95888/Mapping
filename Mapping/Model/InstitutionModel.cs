@@ -19,6 +19,6 @@ namespace Mapping.Model
         public string District { get; set; }
         public string Words { get; set; }
         public DateTime UpdateTime { get; set; }
-        public string[] JoinWords => Words.Split(',');
+        public string[] JoinWords => string.IsNullOrEmpty(Words)?null: Words.Split(',');
     }
 }

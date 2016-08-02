@@ -11,6 +11,51 @@ namespace Mapping
     public class MappingDbContext : DbContext
     {
         private const string Coon = "Data Source=www.smc-sfe.com;Initial Catalog=Mapping;Persist Security Info=True;User ID=sa;Password=XXXboy123";
+
+        public override Task<int> SaveChangesAsync()
+        {
+            var entities = ChangeTracker.Entries<IDtStamped>();
+
+            foreach (var dtStamped in entities)
+            {
+                if (dtStamped.State == EntityState.Added)
+                {
+                    var date = DateTime.Now;
+                    //dtStamped.Entity.CreatedTime = date;
+                    dtStamped.Entity.UpdateTime = date;
+                    //dtStamped.Entity.IsDeleted = false;
+                }
+
+                if (dtStamped.State == EntityState.Modified)
+                {
+                    dtStamped.Entity.UpdateTime = DateTime.Now;
+                }
+            }
+
+            return base.SaveChangesAsync();
+        }
+        public override int SaveChanges()
+        {
+            var entities = ChangeTracker.Entries<IDtStamped>();
+
+            foreach (var dtStamped in entities)
+            {
+                if (dtStamped.State == EntityState.Added)
+                {
+                    var date = DateTime.Now;
+                    //dtStamped.Entity.CreatedTime = date;
+                    dtStamped.Entity.UpdateTime = date;
+                    //dtStamped.Entity.IsDeleted = false;
+                }
+
+                if (dtStamped.State == EntityState.Modified)
+                {
+                    dtStamped.Entity.UpdateTime = DateTime.Now;
+                }
+            }
+
+            return base.SaveChanges();
+        }
         public DbSet<Institution> Institutions { get; set; }protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //modelBuilder.Configurations.Add(new LetterMapping());

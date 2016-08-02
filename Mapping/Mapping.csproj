@@ -154,6 +154,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataSource.cs" />
+    <Compile Include="DbModel\IDtStamped.cs" />
+    <Compile Include="Helper\MatchedHelper.cs" />
     <Compile Include="Helper\SplashScreenTool.cs" />
     <Compile Include="MappingDbContext.cs" />
     <Compile Include="DbModel\Institution.cs" />
@@ -169,6 +171,7 @@
     <Compile Include="Helper\ParticipleHelp.cs" />
     <Compile Include="Model\InstitutionModel.cs" />
     <Compile Include="Model\Item.cs" />
+    <Compile Include="Model\Matched.cs" />
     <Compile Include="Model\Place.cs" />
     <Compile Include="Model\SuggestionCity.cs" />
     <Compile Include="Model\Word.cs" />
@@ -181,12 +184,6 @@
     </Compile>
     <Compile Include="SplashScreen1.Designer.cs">
       <DependentUpon>SplashScreen1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\AutoprocessForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\AutoprocessForm.Designer.cs">
-      <DependentUpon>AutoprocessForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\BaseDataForm.cs">
       <SubType>Form</SubType>
@@ -205,6 +202,12 @@
     </Compile>
     <Compile Include="View\ManualForm.Designer.cs">
       <DependentUpon>ManualForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\MatchedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\MatchedForm.Designer.cs">
+      <DependentUpon>MatchedForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\MatchForm.cs">
       <SubType>Form</SubType>
@@ -247,9 +250,6 @@
     <EmbeddedResource Include="SplashScreen1.resx">
       <DependentUpon>SplashScreen1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\AutoprocessForm.resx">
-      <DependentUpon>AutoprocessForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="View\BaseDataForm.resx">
       <DependentUpon>BaseDataForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -258,6 +258,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\ManualForm.resx">
       <DependentUpon>ManualForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\MatchedForm.resx">
+      <DependentUpon>MatchedForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\MatchForm.resx">
       <DependentUpon>MatchForm.cs</DependentUpon>

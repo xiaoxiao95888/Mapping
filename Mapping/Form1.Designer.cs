@@ -416,7 +416,6 @@ namespace Mapping
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
         private DevExpress.XtraBars.BarButtonItem barButtonItem5;
         private DevExpress.XtraGrid.GridControl gridControl1;
-        private DevExpress.XtraGrid.Views.Grid.GridView SubView;
         private DevExpress.XtraGrid.Columns.GridColumn place_gridColumn_Name;
         private DevExpress.XtraGrid.Columns.GridColumn place_gridColumn_Type;
         private DevExpress.XtraGrid.Columns.GridColumn place_gridColumn_TypeCode;
@@ -435,6 +434,7 @@ namespace Mapping
         private DevExpress.XtraGrid.Columns.GridColumn MasterView_District;
         private DevExpress.XtraGrid.Columns.GridColumn MasterView_Address;
         private DevExpress.XtraGrid.Columns.GridColumn MasterView_Words;
+        private DevExpress.XtraGrid.Views.Grid.GridView SubView;
     }
 }
 

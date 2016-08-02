@@ -24,8 +24,35 @@ namespace Mapping.View
         private void Init()
         {
             textBox1.Text = DataSource.SelectedItem.Name;
+            this.Closing += ManualForm_Closing;
         }
-        private List<Place> Places { get; set; } 
+
+        private void ManualForm_Closing(object sender, CancelEventArgs e)
+        {
+            if (Places != null)
+            {
+                var items = GetSelected().ToList();
+                if (items.Any())
+                {
+                    var firstPlace = items.FirstOrDefault();
+                    DataSource.SelectedItem.Places.Clear();
+                    foreach (var item in items)
+                    {
+                        DataSource.SelectedItem.Places.Add(item);
+                    }
+                    if (firstPlace != null)
+                    {
+                        DataSource.SelectedItem.Province = firstPlace.Province;
+                        DataSource.SelectedItem.City = firstPlace.City;
+                        DataSource.SelectedItem.District = firstPlace.District;
+                        DataSource.SelectedItem.TypeCode = firstPlace.TypeCode;
+                        DataSource.SelectedItem.Type = firstPlace.Type;
+                        DataSource.SelectedItem.Address = firstPlace.Address;
+                    }
+                }
+            }
+        }
+        public  List<Place> Places { get; set; } 
         private async void BindGrid()
         {
             var city = searchLookUpEdit1.EditValue?.ToString();
@@ -63,31 +90,12 @@ namespace Mapping.View
         {
             BindGrid();
         }
-
-        private void gridView1_SelectionChanged(object sender, DevExpress.Data.SelectionChangedEventArgs e)
-        {
-            var items = GetSelected().ToList();
-            if (items.Any())
-            {
-                var firstPlace = items.FirstOrDefault();
-                DataSource.SelectedItem.Places = items;
-                if (firstPlace != null)
-                {
-                    DataSource.SelectedItem.Province = firstPlace.Province;
-                    DataSource.SelectedItem.City = firstPlace.City;
-                    DataSource.SelectedItem.District = firstPlace.District;
-                    DataSource.SelectedItem.TypeCode = firstPlace.TypeCode;
-                    DataSource.SelectedItem.Type = firstPlace.Type;
-                    DataSource.SelectedItem.Address = firstPlace.Address;
-                }
-            }
-        }
         private IEnumerable<Place> GetSelected()
         {
             if (Places != null)
             {
                 var selectedHandle = gridView1.GetSelectedRows();
-                var selectedIds = selectedHandle.Select(handle => gridView1.GetListSourceRowCellValue(handle, "Id"));
+                var selectedIds = selectedHandle.Select(handle => gridView1.GetRowCellValue(handle, "Id"));
                 //var result = from id in selectedIds
                 //             join source in DataSource.Institutions on id.ToString() equals source.Id.ToString() into r1
                 //             from item in r1.DefaultIfEmpty()

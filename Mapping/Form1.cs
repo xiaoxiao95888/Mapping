@@ -1,6 +1,7 @@
 ﻿using Mapping.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace Mapping
         private IEnumerable<Item> GetSelected()
         {
             var selectedHandle = MasterView.GetSelectedRows();
-            var selectedIds = selectedHandle.Select(handle => MasterView.GetListSourceRowCellValue(handle, "Id"));
+            var selectedIds = selectedHandle.Select(handle => MasterView.GetRowCellValue(handle, "Id"));
             //var result = from id in selectedIds
             //             join source in DataSource.Institutions on id.ToString() equals source.Id.ToString() into r1
             //             from item in r1.DefaultIfEmpty()
@@ -54,6 +55,7 @@ namespace Mapping
                 SplashScreenTool.CloseSplashScreen();
                 MasterView.RefreshData();
                 SubView.RefreshData();
+                //SbExpandDetails();
             })();
         }
         //分词
@@ -79,10 +81,10 @@ namespace Mapping
             {
                 i++;
                 item.Places =
-                       await LocaltionHelp.GetOnePlace(item.Name, item.City + item.District, item.TypeCode, item.Id);
+                    await LocaltionHelp.GetOnePlace(item.Name, item.City + item.District, item.TypeCode, item.Id);
                 //默认取值第一个
                 var firstPlace = item.Places.FirstOrDefault();
-                if (firstPlace!=null)
+                if (firstPlace != null)
                 {
                     item.Province = firstPlace.Province;
                     item.City = firstPlace.City;
@@ -92,9 +94,10 @@ namespace Mapping
                     item.Address = firstPlace.Address;
                 }
                 SplashScreenTool.SendCommand(WaitForm1.WaitFormCommand.SetProgress2,
-                    Convert.ToInt32(i / (decimal)num * 100));
+                    Convert.ToInt32(i/(decimal) num*100));
             }
         }
+
         public void Init()
         {
             this.gridControl1.DataSource = DataSource.DataSource1;
@@ -161,30 +164,30 @@ namespace Mapping
             }
         }
         //展开所有
-        //private void sbExpandDetails_Click()
-        //{
-        //    gridView1.BeginUpdate();
-        //    try
-        //    {
-        //        for (int i = 0; i < gridView1.RowCount; i++)
-        //            gridView1.SetMasterRowExpanded(i, true);
-        //    }
-        //    finally
-        //    {
-        //        gridView1.EndUpdate();
-        //    }
-        //}
+        private void SbExpandDetails()
+        {
+            MasterView.BeginUpdate();
+            try
+            {
+                for (int i = 0; i < MasterView.RowCount; i++)
+                    MasterView.SetMasterRowExpanded(i, true);
+            }
+            finally
+            {
+                MasterView.EndUpdate();
+            }
+        }
 
         private void barButtonItem1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
+            MasterView.RefreshData();
+            //DataSource.DataSource1.Clear();
+           
+            //var manualForm = new TestForm1 { StartPosition = FormStartPosition.CenterParent };
 
+            //manualForm.ShowDialog();
         }
-      
-
-        private void barButtonItem3_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-            
-        }
+       
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -192,8 +195,14 @@ namespace Mapping
         }
         private void barButtonItem5_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            var autoprocessForm = new AutoprocessForm { StartPosition = FormStartPosition.CenterParent };
-            autoprocessForm.ShowDialog();
+            DataSource.Matcheds= new BindingList<Matched>();
+            foreach (var item in DataSource.DataSource1)
+            {
+                MatchedHelper.Matched(item);
+            }
+            var matchedForm = new MatchedForm { StartPosition = FormStartPosition.CenterParent };
+            matchedForm.ShowDialog();
+           
         }
 
         private void barButtonItem4_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -226,12 +235,10 @@ namespace Mapping
                         item.Address = place.Address;
                         MasterView.RefreshData();
                     }
-
                 }
-                
             }
         }
-        
+
         private void MasterView_DoubleClick(object sender, EventArgs e)
         {
             var view = (GridView)sender;
@@ -239,6 +246,7 @@ namespace Mapping
             var info = view.CalcHitInfo(pt);
             if (info.InRow || info.InRowCell)
             {
+
                 //数据源中的Index
                 var itemId = view.GetRowCellValue(info.RowHandle, "Id") as Guid?;
                 DataSource.SelectedItem = DataSource.DataSource1.FirstOrDefault(n => n.Id == itemId);
@@ -247,12 +255,17 @@ namespace Mapping
                     if (DataSource.SelectedItem.Places != null)
                     {
                         var manualForm = new ManualForm { StartPosition = FormStartPosition.CenterParent };
+                        manualForm.FormClosed += ManualForm_FormClosed;
                         manualForm.ShowDialog();
                     }
                 }
             }
         }
 
+        private void ManualForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+           MasterView.RefreshData();
+        }
 
 
         //private void gridView3_DoubleClick(object sender, EventArgs e)

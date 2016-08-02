@@ -27,7 +27,8 @@ namespace Mapping.Model
         /// 分词
         /// </summary>
         public string Words { get; set; }
+        public string[] JoinWords => string.IsNullOrEmpty(Words) ? null : Words.Split(',');
         public int PlaceCount => Places.Count;
-
+     
     }
 }

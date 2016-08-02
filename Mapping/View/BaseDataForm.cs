@@ -27,9 +27,9 @@ namespace Mapping.View
         private IEnumerable<InstitutionModel> GetSelected()
         {
             var selectedHandle = gridView1.GetSelectedRows();
-            var selectedIds = selectedHandle.Select(handle => gridView1.GetListSourceRowCellValue(handle, "Id"));
-            //var result = from id in selectedIds
-            //             join source in DataSource.Institutions on id.ToString() equals source.Id.ToString() into r1
+            var selectedIds = selectedHandle.Select(handle => gridView1.GetRowCellValue(handle, "Id"));
+
+            //var result = from id in selectedIds//             join source in DataSource.Institutions on id.ToString() equals source.Id.ToString() into r1
             //             from item in r1.DefaultIfEmpty()
             //             select item;
             var result =
@@ -140,7 +140,6 @@ namespace Mapping.View
                     data.Location = item.Location;
                     data.Province = item.Province;
                     data.TypeCode = item.TypeCode;
-                    data.UpdateTime = DateTime.Now;
                     data.Words = item.Words;
                     await DbService.InstitutionService.SyncUpdate();
                 }
