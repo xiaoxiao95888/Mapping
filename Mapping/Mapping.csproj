@@ -47,6 +47,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>toolbox_72px_1180627_easyicon.net.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
     <Reference Include="DevExpress.BonusSkins.v15.2" />
@@ -55,6 +58,7 @@
     <Reference Include="DevExpress.Data.v15.2" />
     <Reference Include="DevExpress.DataAccess.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.DataAccess.v15.2.UI, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Docs.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.ExpressApp.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Office.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Persistent.Base.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -169,6 +173,7 @@
     <Compile Include="Helper\HttpHelp.cs" />
     <Compile Include="Helper\LocaltionHelp.cs" />
     <Compile Include="Helper\ParticipleHelp.cs" />
+    <Compile Include="Model\ExcelModel.cs" />
     <Compile Include="Model\InstitutionModel.cs" />
     <Compile Include="Model\Item.cs" />
     <Compile Include="Model\Matched.cs" />
@@ -196,6 +201,12 @@
     </Compile>
     <Compile Include="View\LocationForm.Designer.cs">
       <DependentUpon>LocationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\BaseDataManualForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\BaseDataManualForm.Designer.cs">
+      <DependentUpon>BaseDataManualForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\ManualForm.cs">
       <SubType>Form</SubType>
@@ -227,6 +238,12 @@
     <Compile Include="View\SaveBaseDataWaitForm.Designer.cs">
       <DependentUpon>SaveBaseDataWaitForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\SheetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\SheetForm.Designer.cs">
+      <DependentUpon>SheetForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="WaitForm1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -256,6 +273,9 @@
     <EmbeddedResource Include="View\LocationForm.resx">
       <DependentUpon>LocationForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\BaseDataManualForm.resx">
+      <DependentUpon>BaseDataManualForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\ManualForm.resx">
       <DependentUpon>ManualForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -270,6 +290,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\SaveBaseDataWaitForm.resx">
       <DependentUpon>SaveBaseDataWaitForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\SheetForm.resx">
+      <DependentUpon>SheetForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WaitForm1.resx">
       <DependentUpon>WaitForm1.cs</DependentUpon>
@@ -297,6 +320,11 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Icon\toolbox_72px_1180627_easyicon.net.ico" />
+    <Content Include="toolbox_72px_1180627_easyicon.net.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

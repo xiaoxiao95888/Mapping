@@ -31,6 +31,7 @@ namespace Mapping
         private void InitializeComponent()
         {
             DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.SubView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.place_gridColumn_Name = new DevExpress.XtraGrid.Columns.GridColumn();
             this.place_gridColumn_Type = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -53,7 +54,6 @@ namespace Mapping
             this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.btn_importexcel = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
@@ -190,7 +190,6 @@ namespace Mapping
             this.MasterView.OptionsSelection.MultiSelectMode = DevExpress.XtraGrid.Views.Grid.GridMultiSelectMode.CheckBoxRowSelect;
             this.MasterView.OptionsView.EnableAppearanceEvenRow = true;
             this.MasterView.OptionsView.ShowFooter = true;
-            this.MasterView.OptionsView.ShowIndicator = false;
             this.MasterView.DoubleClick += new System.EventHandler(this.MasterView_DoubleClick);
             // 
             // MasterView_Code
@@ -277,7 +276,6 @@ namespace Mapping
             this.ribbonControl1.ExpandCollapseItem,
             this.btn_importexcel,
             this.barButtonItem2,
-            this.barButtonItem1,
             this.barButtonItem4,
             this.barButtonItem5});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
@@ -304,17 +302,9 @@ namespace Mapping
             this.barButtonItem2.Name = "barButtonItem2";
             this.barButtonItem2.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem2_ItemClick);
             // 
-            // barButtonItem1
-            // 
-            this.barButtonItem1.Caption = "设定";
-            this.barButtonItem1.Id = 5;
-            this.barButtonItem1.ImageUri.Uri = "CustomizeGrid";
-            this.barButtonItem1.Name = "barButtonItem1";
-            this.barButtonItem1.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem1_ItemClick);
-            // 
             // barButtonItem4
             // 
-            this.barButtonItem4.Caption = "主数据管理";
+            this.barButtonItem4.Caption = "基础数据";
             this.barButtonItem4.Id = 7;
             this.barButtonItem4.ImageUri.Uri = "EditDataSource";
             this.barButtonItem4.Name = "barButtonItem4";
@@ -350,12 +340,11 @@ namespace Mapping
             this.ribbonPageGroup2.ItemLinks.Add(this.barButtonItem5);
             this.ribbonPageGroup2.Name = "ribbonPageGroup2";
             this.ribbonPageGroup2.ShowCaptionButton = false;
-            this.ribbonPageGroup2.Text = "Auto-Process";
+            this.ribbonPageGroup2.Text = "Process";
             // 
             // ribbonPageGroup4
             // 
             this.ribbonPageGroup4.ItemLinks.Add(this.barButtonItem4);
-            this.ribbonPageGroup4.ItemLinks.Add(this.barButtonItem1);
             this.ribbonPageGroup4.Name = "ribbonPageGroup4";
             this.ribbonPageGroup4.ShowCaptionButton = false;
             this.ribbonPageGroup4.Text = "Setting";
@@ -387,6 +376,7 @@ namespace Mapping
             this.ClientSize = new System.Drawing.Size(1065, 660);
             this.Controls.Add(this.gridControl1);
             this.Controls.Add(this.ribbonControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.Name = "MainForm";
             this.Ribbon = this.ribbonControl1;
@@ -408,7 +398,6 @@ namespace Mapping
         private DevExpress.XtraBars.BarButtonItem barButtonItem2;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage2;
         private DevExpress.XtraBars.BarButtonItem barButtonItem4;

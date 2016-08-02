@@ -68,5 +68,22 @@ namespace Mapping.View
                 }
             }
         }
+
+        private void barLargeButtonItem1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            if (DataSource.Matcheds.Any())
+            {
+                var form = new SheetForm
+                {
+                    StartPosition = FormStartPosition.CenterParent,
+                    WindowState = FormWindowState.Maximized
+                };
+                form.Show();
+            }
+            else
+            {
+                XtraMessageBox.Show("没有任何匹配的结果", "提示");
+            }
+        }
     }
 }

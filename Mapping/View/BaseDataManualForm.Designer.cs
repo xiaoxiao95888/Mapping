@@ -1,6 +1,6 @@
 ﻿namespace Mapping.View
 {
-    partial class ManualForm
+    partial class BaseDataManualForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManualForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BaseDataManualForm));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
             this.searchLookUpEdit1 = new DevExpress.XtraEditors.SearchLookUpEdit();
             this.searchLookUpEdit1View = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -315,15 +315,16 @@
             this.gridColumn_Num.Visible = true;
             this.gridColumn_Num.VisibleIndex = 2;
             // 
-            // ManualForm
+            // BaseDataManualForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(812, 262);
             this.Controls.Add(this.layoutControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "ManualForm";
+            this.Name = "BaseDataManualForm";
             this.Text = "手动匹配地理信息";
+            this.Load += new System.EventHandler(this.BaseDataManualForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.searchLookUpEdit1.Properties)).EndInit();
