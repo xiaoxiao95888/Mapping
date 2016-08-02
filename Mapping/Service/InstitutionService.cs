@@ -18,11 +18,11 @@ namespace Mapping.Service
         }
         public IQueryable<Institution> GetAll()
         {
-            return DbContext.Institutions.Take(1000);
+            return DbContext.Institutions;
         }
         public BindingList<Institution> GetAllBindingList()
         {
-            DbContext.Institutions.Take(100).Load();
+            DbContext.Institutions.Load();
             return DbContext.Institutions.Local.ToBindingList();
         }
 
