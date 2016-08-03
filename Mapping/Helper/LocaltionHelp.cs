@@ -17,7 +17,7 @@ namespace Mapping.Helper
     public static class LocaltionHelp
     {
         //const string Key = "0e5d423fdc3296a4212cce56cc52d2a6";//高德key
-        const string Key = "8726e94e521325daaee5b4738d83bb56";//官方KEY
+        const string Key = "ebef24172cabd898c413045b5731ee6c";//高德key
         /// <summary>
         /// 获取推荐的城市
         /// </summary>

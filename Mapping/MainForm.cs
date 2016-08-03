@@ -1,8 +1,9 @@
-﻿using Mapping.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
+using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -10,11 +11,12 @@ using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraSplashScreen;
 using Mapping.Helper;
+using Mapping.Model;
 using Mapping.View;
 
 namespace Mapping
 {
-    public partial class MainForm : DevExpress.XtraBars.Ribbon.RibbonForm
+    public partial class MainForm : DevExpress.XtraEditors.XtraForm
     {
         public MainForm()
         {
@@ -94,12 +96,13 @@ namespace Mapping
                     item.Address = firstPlace.Address;
                 }
                 SplashScreenTool.SendCommand(WaitForm1.WaitFormCommand.SetProgress2,
-                    Convert.ToInt32(i/(decimal) num*100));
+                    Convert.ToInt32(i / (decimal)num * 100));
             }
         }
 
         public void Init()
         {
+
             this.gridControl1.DataSource = DataSource.DataSource1;
         }
         /// <summary>
@@ -177,32 +180,20 @@ namespace Mapping
                 MasterView.EndUpdate();
             }
         }
-
-        private void barButtonItem1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-            MasterView.RefreshData();
-            //DataSource.DataSource1.Clear();
-           
-            //var manualForm = new TestForm1 { StartPosition = FormStartPosition.CenterParent };
-
-            //manualForm.ShowDialog();
-        }
-       
-
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadInstitutions();
         }
         private void barButtonItem5_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            DataSource.Matcheds= new BindingList<Matched>();
+            DataSource.Matcheds = new BindingList<Matched>();
             foreach (var item in DataSource.DataSource1)
             {
                 MatchedHelper.Matched(item);
             }
             var matchedForm = new MatchedForm { StartPosition = FormStartPosition.CenterParent };
             matchedForm.ShowDialog();
-           
+
         }
 
         private void barButtonItem4_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -264,7 +255,12 @@ namespace Mapping
 
         private void ManualForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-           MasterView.RefreshData();
+            MasterView.RefreshData();
+        }
+
+        private void barButtonItem5_ItemClick_1(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            var aaa = 1;
         }
 
 
@@ -288,5 +284,4 @@ namespace Mapping
         //    }
         //}
     }
-
 }
