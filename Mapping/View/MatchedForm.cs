@@ -24,6 +24,10 @@ namespace Mapping.View
         public void Init()
         {
             gridControl1.DataSource = DataSource.Matcheds;
+            foreach (DevExpress.XtraGrid.Columns.GridColumn item in gridView2.Columns)
+            {
+                item.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;   //筛选条件设置为包含  
+            }
         }
         private void barLargeButtonItem1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
@@ -47,7 +51,7 @@ namespace Mapping.View
             var view = (GridView)sender;
             var insId = view.GetRowCellValue(view.FocusedRowHandle, "Id") as Guid?;
             var master = (GridView)view.ParentView;
-            var item= (Item)master.GetRowCellValue(master.FocusedRowHandle, "Item");
+            var item = (Item)master.GetRowCellValue(master.FocusedRowHandle, "Item");
             var matched =
                 DataSource.Matcheds.FirstOrDefault(
                     n => n.Item.Id == item.Id);
@@ -98,7 +102,6 @@ namespace Mapping.View
             //        {
             //            var model = new MatchedInstitutionModel
             //            {
-
             //                Id = matchedInstitutionModel.Id,
             //                Name = matchedInstitutionModel.Name,
             //                Type = matchedInstitutionModel.Type,

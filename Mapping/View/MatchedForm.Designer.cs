@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
+            DevExpress.XtraGrid.GridLevelNode gridLevelNode2 = new DevExpress.XtraGrid.GridLevelNode();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MatchedForm));
             this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -79,7 +79,7 @@
             this.gridView2.GridControl = this.gridControl1;
             this.gridView2.Name = "gridView2";
             this.gridView2.OptionsBehavior.Editable = false;
-            this.gridView2.OptionsFind.AlwaysVisible = true;
+            this.gridView2.OptionsView.ShowAutoFilterRow = true;
             this.gridView2.DoubleClick += new System.EventHandler(this.gridView2_DoubleClick);
             // 
             // gridColumn4
@@ -156,10 +156,10 @@
             // 
             // gridControl1
             // 
-            gridLevelNode1.LevelTemplate = this.gridView2;
-            gridLevelNode1.RelationName = "MatchedInstitutionModels";
+            gridLevelNode2.LevelTemplate = this.gridView2;
+            gridLevelNode2.RelationName = "MatchedInstitutionModels";
             this.gridControl1.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
-            gridLevelNode1});
+            gridLevelNode2});
             this.gridControl1.Location = new System.Drawing.Point(12, 12);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
