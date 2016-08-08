@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mapping.DbModel;
+using Mapping.Model;
 
 namespace Mapping.Service
 {
@@ -37,6 +38,27 @@ namespace Mapping.Service
         public async Task SyncUpdate()
         {
             await DbContext.SaveChangesAsync();
+        }
+        /// <summary>
+        /// 暂时直接保存分词
+        /// </summary>
+        /// <param name="model"></param>
+        public void UpdateParticiple(InstitutionModel model)
+        {
+            var count =
+                DbContext.Database.SqlQuery<Guid>(string.Format("select Id from [Participle] where ObjectId='{0}'",
+                    model.Id)).ToList();
+            if (count.Any())
+            {
+                DbContext.Database.ExecuteSqlCommand(string.Format("update [Participle]  set Words='{0}' where ObjectId='{1}'",
+                    model.Words, model.Id));
+            }
+            else
+            {
+                DbContext.Database.ExecuteSqlCommand(
+                    string.Format("INSERT INTO [Participle] values(NEWID(),'{0}','{1}')" ,model.Id, model.Words));
+            }
+
         }
     }
 }

@@ -10,7 +10,8 @@ namespace Mapping
 {
     public class MappingDbContext : DbContext
     {
-        private const string Coon = "Data Source=www.smc-sfe.com;Initial Catalog=Mapping;Persist Security Info=True;User ID=sa;Password=XXXboy123";
+        //private const string Coon = "Data Source=www.smc-sfe.com;Initial Catalog=Mapping;Persist Security Info=True;User ID=sa;Password=XXXboy123";
+        private const string Coon = "Data Source=www.smc-sfe.com;Initial Catalog=SMC;Persist Security Info=True;User ID=sa;Password=XXXboy123";
 
         public override Task<int> SaveChangesAsync()
         {

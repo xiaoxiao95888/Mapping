@@ -16,8 +16,7 @@ namespace Mapping.Helper
 {
     public static class LocaltionHelp
     {
-        //const string Key = "0e5d423fdc3296a4212cce56cc52d2a6";//高德key
-        const string Key = "ebef24172cabd898c413045b5731ee6c";//高德key
+        private const string Key = "ebef24172cabd898c413045b5731ee6c";//高德key
         /// <summary>
         /// 获取推荐的城市
         /// </summary>
@@ -69,7 +68,7 @@ namespace Mapping.Helper
                             Name = item.name,
                             Type = item.type,
                             TypeCode = item.typecode,
-                            Address = item.address,
+                            Address = item.address.Length != 0 ? item.address : null,
                             Location = item.location,
                             Province = item.pname,
                             City = item.cityname,
@@ -78,9 +77,10 @@ namespace Mapping.Helper
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
+                // ignored
             }
 
             return places;

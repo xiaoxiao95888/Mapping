@@ -85,6 +85,8 @@ namespace Mapping.View
                     {
                         filters[i].Words = string.Join(",", words);
                         //DbService.InstitutionService.Update();
+                        //暂时直接保存
+                        DbService.InstitutionService.UpdateParticiple(filters[i]);
                         SplashScreenTool.SendCommand(ParticipleWaitForm.WaitFormCommand.SetSucceed, i + 1);
                     }
                     SplashScreenTool.SendCommand(ParticipleWaitForm.WaitFormCommand.SetProgress,

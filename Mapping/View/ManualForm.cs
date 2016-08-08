@@ -61,7 +61,7 @@ namespace Mapping.View
             {
                 Places =
                     await
-                        LocaltionHelp.GetOnePlace(name, city, DataSource.SelectedItem.TypeCode,
+                        LocaltionHelp.GetOnePlace(name, city, null,
                             DataSource.SelectedItem.Id, 20);
                 gridControl1.DataSource = Places;
             }
@@ -72,7 +72,7 @@ namespace Mapping.View
             var text = textBox1.Text;
             if (!string.IsNullOrEmpty(text))
             {
-                var result = await LocaltionHelp.GetSuggestion(textBox1.Text, DataSource.SelectedItem.TypeCode);
+                var result = await LocaltionHelp.GetSuggestion(textBox1.Text, null);
                 searchLookUpEdit1.Properties.DataSource = result;
             }
             else

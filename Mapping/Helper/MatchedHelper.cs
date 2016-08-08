@@ -53,14 +53,15 @@ namespace Mapping.Helper
                             filter.Where(
                                 n =>
                                     item.Places.Any(
-                                        p => p.Province == n.Province && p.City == n.City && p.District == n.District));
+                                        p =>
+                                            p.Province == n.Province && p.City == n.City));
                     }
                     else
                     {
                         filter = filter.Where(n =>
                             (n.Province == item.Province || string.IsNullOrEmpty(item.Province)) &&
-                            (n.City == item.City || string.IsNullOrEmpty(item.City)) &&
-                            (n.District == item.District || string.IsNullOrEmpty(item.District))
+                            (n.City == item.City || string.IsNullOrEmpty(item.City))
+                            //&& (n.District == item.District || string.IsNullOrEmpty(item.District))
                             );
                     }
                     //分析权重
@@ -70,52 +71,42 @@ namespace Mapping.Helper
                         var percent = (decimal)1;
                         if (ins.Province != item.Province)
                         {
-                            percent = percent - (decimal)0.05;
+                            percent = percent - (decimal)0.18;
                             if (item.Places.Any(n => n.Province == ins.Province))
                             {
-                                percent = percent + (decimal)(0.025 * 0.8);
+                                percent = percent + (decimal)(0.18 * 0.8);
                             }
                         }
                         if (ins.City != item.City)
                         {
-                            percent = percent - (decimal)0.1;
+                            percent = percent - (decimal)0.12;
                             if (item.Places.Any(n => n.City == ins.City))
                             {
-                                percent = percent + (decimal)(0.05 * 0.8);
+                                percent = percent + (decimal)(0.12 * 0.8);
                             }
                         }
-                        if (ins.District != item.District)
-                        {
-                            percent = percent - (decimal)0.15;
-                            if (item.Places.Any(n => n.District == ins.District))
-                            {
-                                percent = percent + (decimal)(0.075 * 0.8);
-                            }
-                        }
-                        percent = percent - (decimal)0.3;
+                        //if (ins.District != item.District)
+                        //{
+                        //    percent = percent - (decimal)0.18;
+                        //    if (item.Places.Any(n => n.District == ins.District))
+                        //    {
+                        //        percent = percent + (decimal)(0.18 * 0.8);
+                        //    }
+                        //}
+                        percent = percent - (decimal)0.6;
                         if (ins.JoinWords != null && item.JoinWords != null)
                         {
-                            var wordSegmentationMatchingNumber =
-                                ins.JoinWords.Count(n => item.JoinWords.Any(p => p == n));
-                            var total = ins.JoinWords.Length > item.JoinWords.Length
-                                ? ins.JoinWords.Length
-                                : item.JoinWords.Length;
-
-                            if (wordSegmentationMatchingNumber != 0)
+                            var leftproportion = (decimal)ins.JoinWords.Distinct().Count(n => item.JoinWords.Distinct().Any(p => p == n)) / ins.JoinWords.Distinct().Count();
+                            var rightproportion = (decimal)item.JoinWords.Distinct().Count(n => ins.JoinWords.Distinct().Any(p => p == n)) / item.JoinWords.Distinct().Count();
+                            var participlesWeight = (leftproportion + rightproportion) / 2 * (decimal)0.6;
+                            percent = percent + participlesWeight;
+                            //行业的权重
+                            percent = percent - (decimal)0.1;
+                            if (string.IsNullOrEmpty(item.TypeCode) == false &&
+                                string.IsNullOrEmpty(ins.TypeCode) == false && ins.TypeCode == item.TypeCode)
                             {
-                                var participlesWeight = (decimal) 0.3*((decimal) wordSegmentationMatchingNumber/total);
-                                percent = percent + participlesWeight;
-                                if (participlesWeight < (decimal) 0.3)
-                                {
-                                    //行业的权重
-                                    if (string.IsNullOrEmpty(item.TypeCode) == false &&
-                                        string.IsNullOrEmpty(ins.TypeCode) == false && ins.TypeCode == item.TypeCode)
-                                    {
-                                        percent = percent + (decimal) 0.075;
-                                    }
-                                }
+                                percent = percent + (decimal)0.1;
                             }
-
                         }
 
                         result.Add(new MatchedInstitutionModel
