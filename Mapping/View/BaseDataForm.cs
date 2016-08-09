@@ -80,7 +80,7 @@ namespace Mapping.View
                 for (var i = 0; i < num; i++)
                 {
                     SplashScreenTool.SendCommand(ParticipleWaitForm.WaitFormCommand.SetCurrent, i + 1);
-                    var words = await ParticipleHelp.GetParticiple(filters[i].Name);
+                    var words = await ParticipleHelp.PostParticiple(filters[i].Name);
                     if (words.Any())
                     {
                         filters[i].Words = string.Join(",", words);

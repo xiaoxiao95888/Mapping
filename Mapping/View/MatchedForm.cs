@@ -7,8 +7,10 @@ using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DevExpress.Data.WcfLinq.Helpers;
 using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraPrinting.Native;
 using Mapping.Model;
 
 namespace Mapping.View
@@ -20,7 +22,8 @@ namespace Mapping.View
             InitializeComponent();
             Init();
         }
-
+        private List<MatchedInstitutionModel> MatchedInstitutionModels { get; set; }
+        private List<MatchedInstitutionModel> FilterMatchedInstitutionModels { get; set; }
         public void Init()
         {
             gridControl1.DataSource = DataSource.Matcheds;
@@ -49,79 +52,62 @@ namespace Mapping.View
         private void gridView2_DoubleClick(object sender, EventArgs e)
         {
             var view = (GridView)sender;
-            var insId = view.GetRowCellValue(view.FocusedRowHandle, "Id") as Guid?;
-            var master = (GridView)view.ParentView;
-            var item = (Item)master.GetRowCellValue(master.FocusedRowHandle, "Item");
-            var matched =
-                DataSource.Matcheds.FirstOrDefault(
-                    n => n.Item.Id == item.Id);
+            var matchedInstitutionModelId= view.GetRowCellValue(view.FocusedRowHandle, "Id") as Guid?;
+            var item = (Item) gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "Item");
+            var matched = DataSource.Matcheds.FirstOrDefault(n => n.Item.Id == item.Id);
+            var matchedInstitutionModel =
+                matched?.MatchedInstitutionModels.FirstOrDefault(n => n.Id == matchedInstitutionModelId);
+            if (matchedInstitutionModel != null)
+            {
+                var model = new MatchedInstitutionModel
+                {
+
+                    Id = matchedInstitutionModel.Id,
+                    Name = matchedInstitutionModel.Name,
+                    Type = matchedInstitutionModel.Type,
+                    TypeCode = matchedInstitutionModel.TypeCode,
+                    Address = matchedInstitutionModel.Address,
+                    Location = matchedInstitutionModel.Location,
+                    Province = matchedInstitutionModel.Province,
+                    City = matchedInstitutionModel.City,
+                    District = matchedInstitutionModel.District,
+                    Words = matchedInstitutionModel.Words,
+                    UpdateTime = matchedInstitutionModel.UpdateTime,
+                    Percent = matchedInstitutionModel.Percent
+
+                };
+                matched.MatchedInstitutionModels.Remove(matchedInstitutionModel);
+                matched.MatchedInstitutionModels.Insert(0, model);
+                gridView1.RefreshData();
+                gridView2.RefreshData();
+            }
+        }
+
+        private void gridView1_Click(object sender, EventArgs e)
+        {
+            var view = (GridView)sender;
+            var item = (Item)view.GetRowCellValue(view.FocusedRowHandle, "Item");
+            var matched = DataSource.Matcheds.FirstOrDefault(n => n.Item.Id == item.Id);
             if (matched != null)
             {
-                var matchedInstitutionModel =
-                    matched.MatchedInstitutionModels.FirstOrDefault(n => n.Id == insId);
-                if (matchedInstitutionModel != null)
+                MatchedInstitutionModels = matched.MatchedInstitutionModels;
+                FilterMatchedInstitutionModels = matched.MatchedInstitutionModels;
+                checkedListBoxControl1.Items.Clear();
+                foreach (var word in item.JoinWords)
                 {
-                    var model = new MatchedInstitutionModel
-                    {
-
-                        Id = matchedInstitutionModel.Id,
-                        Name = matchedInstitutionModel.Name,
-                        Type = matchedInstitutionModel.Type,
-                        TypeCode = matchedInstitutionModel.TypeCode,
-                        Address = matchedInstitutionModel.Address,
-                        Location = matchedInstitutionModel.Location,
-                        Province = matchedInstitutionModel.Province,
-                        City = matchedInstitutionModel.City,
-                        District = matchedInstitutionModel.District,
-                        Words = matchedInstitutionModel.Words,
-                        UpdateTime = matchedInstitutionModel.UpdateTime,
-                        Percent = matchedInstitutionModel.Percent
-
-                    };
-                    matched.MatchedInstitutionModels.Remove(matchedInstitutionModel);
-                    matched.MatchedInstitutionModels.Insert(0, model);
+                    checkedListBoxControl1.Items.Add(word, CheckState.Checked);
                 }
-                gridView1.RefreshData();
+                gridControl2.DataSource = FilterMatchedInstitutionModels;
             }
+        }
 
-            //var pt = view.GridControl.PointToClient(MousePosition);
-            //var info = view.CalcHitInfo(pt);
-            //if (info.InRow || info.InRowCell)
-            //{
-            //    //数据源中的Index
-
-            //    var insId = view.GetRowCellValue(info.RowHandle, "Id") as Guid?;
-            //    var matched =
-            //        DataSource.Matcheds.FirstOrDefault(
-            //            n => n.MatchedInstitutionModels.Any(p => p.Id == insId));
-            //    if (matched != null)
-            //    {
-            //        var matchedInstitutionModel =
-            //            matched.MatchedInstitutionModels.FirstOrDefault(n => n.Id == insId);
-            //        if (matchedInstitutionModel != null)
-            //        {
-            //            var model = new MatchedInstitutionModel
-            //            {
-            //                Id = matchedInstitutionModel.Id,
-            //                Name = matchedInstitutionModel.Name,
-            //                Type = matchedInstitutionModel.Type,
-            //                TypeCode = matchedInstitutionModel.TypeCode,
-            //                Address = matchedInstitutionModel.Address,
-            //                Location = matchedInstitutionModel.Location,
-            //                Province = matchedInstitutionModel.Province,
-            //                City = matchedInstitutionModel.City,
-            //                District = matchedInstitutionModel.District,
-            //                Words = matchedInstitutionModel.Words,
-            //                UpdateTime = matchedInstitutionModel.UpdateTime,
-            //                Percent = matchedInstitutionModel.Percent
-
-            //            };
-            //            matched.MatchedInstitutionModels.Remove(matchedInstitutionModel);
-            //            matched.MatchedInstitutionModels.Insert(0, model);
-            //        }
-            //        gridView1.RefreshData();
-            //    }
-            //}
+        private void checkedListBoxControl1_ItemCheck(object sender, DevExpress.XtraEditors.Controls.ItemCheckEventArgs e)
+        {
+            var words = (from object item in checkedListBoxControl1.CheckedItems select item.ToString()).ToList();
+            FilterMatchedInstitutionModels =
+                MatchedInstitutionModels.Where(n => n.JoinWords.Any(p => words.Contains(p))).ToList();
+           
+            gridControl2.DataSource = FilterMatchedInstitutionModels;
         }
     }
 }

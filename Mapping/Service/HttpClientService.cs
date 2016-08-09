@@ -28,5 +28,16 @@ namespace Mapping.Service
             var response = await HttpClient.GetAsync(url);
             return await response.Content.ReadAsStringAsync();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="parameters">键值对参数</param>
+        /// <returns></returns>
+        public static async Task<string> PostAsync(string url, List<KeyValuePair<string, string>> parameters)
+        {
+            var response = await HttpClient.PostAsync(url, new FormUrlEncodedContent(parameters));
+            return await response.Content.ReadAsStringAsync();
+        }
     }
 }

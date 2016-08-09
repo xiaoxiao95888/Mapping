@@ -68,13 +68,17 @@ namespace Mapping
             foreach (var item in items)
             {
                 i++;
-                var words = await ParticipleHelp.GetParticiple(item.Name);
+                var words = await ParticipleHelp.PostParticiple(item.Name);
                 item.Words = string.Join(",", words);
                 SplashScreenTool.SendCommand(WaitForm1.WaitFormCommand.SetProgress1,
                     Convert.ToInt32(i / (decimal)num * 100));
             }
         }
-        //地理信息
+        /// <summary>
+        /// 地理信息
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns></returns>
         public async Task Localtion(List<Item> items)
         {
             var num = items.Count;
