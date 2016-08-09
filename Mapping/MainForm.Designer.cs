@@ -326,6 +326,7 @@
             // barButtonItem5
             // 
             this.barButtonItem5.Caption = "设置";
+            this.barButtonItem5.Enabled = false;
             this.barButtonItem5.Glyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem5.Glyph")));
             this.barButtonItem5.Id = 5;
             this.barButtonItem5.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("barButtonItem5.LargeGlyph")));
