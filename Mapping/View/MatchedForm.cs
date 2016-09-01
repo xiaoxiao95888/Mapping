@@ -22,8 +22,7 @@ namespace Mapping.View
             InitializeComponent();
             Init();
         }
-        private List<MatchedInstitutionModel> MatchedInstitutionModels { get; set; }
-        private List<MatchedInstitutionModel> FilterMatchedInstitutionModels { get; set; }
+        private List<InstitutionModel> FilterInstitutionModels { get; set; }
         public void Init()
         {
             gridControl1.DataSource = DataSource.Matcheds;
@@ -48,20 +47,23 @@ namespace Mapping.View
                 XtraMessageBox.Show("没有任何匹配的结果", "提示");
             }
         }
-
+        /// <summary>
+        /// 选择匹配的结果
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void gridView2_DoubleClick(object sender, EventArgs e)
         {
             var view = (GridView)sender;
-            var matchedInstitutionModelId= view.GetRowCellValue(view.FocusedRowHandle, "Id") as Guid?;
-            var item = (Item) gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "Item");
+            var matchedInstitutionModelId = view.GetRowCellValue(view.FocusedRowHandle, "Id") as Guid?;
+            var item = (Item)gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "Item");
             var matched = DataSource.Matcheds.FirstOrDefault(n => n.Item.Id == item.Id);
             var matchedInstitutionModel =
-                matched?.MatchedInstitutionModels.FirstOrDefault(n => n.Id == matchedInstitutionModelId);
+                DataSource.InstitutionModels.FirstOrDefault(n => n.Id == matchedInstitutionModelId);
             if (matchedInstitutionModel != null)
             {
                 var model = new MatchedInstitutionModel
                 {
-
                     Id = matchedInstitutionModel.Id,
                     Name = matchedInstitutionModel.Name,
                     Type = matchedInstitutionModel.Type,
@@ -73,16 +75,13 @@ namespace Mapping.View
                     District = matchedInstitutionModel.District,
                     Words = matchedInstitutionModel.Words,
                     UpdateTime = matchedInstitutionModel.UpdateTime,
-                    Percent = matchedInstitutionModel.Percent
-
+                    Percent = 1
                 };
-                matched.MatchedInstitutionModels.Remove(matchedInstitutionModel);
-                matched.MatchedInstitutionModels.Insert(0, model);
+                matched.MatchedInstitutionModel = model;
                 gridView1.RefreshData();
                 gridView2.RefreshData();
             }
         }
-
         private void gridView1_Click(object sender, EventArgs e)
         {
             var view = (GridView)sender;
@@ -90,24 +89,71 @@ namespace Mapping.View
             var matched = DataSource.Matcheds.FirstOrDefault(n => n.Item.Id == item.Id);
             if (matched != null)
             {
-                MatchedInstitutionModels = matched.MatchedInstitutionModels;
-                FilterMatchedInstitutionModels = matched.MatchedInstitutionModels;
+                if (item.JoinWords != null)
+                {
+                    FilterInstitutionModels = DataSource.InstitutionModels.Where(n => n.JoinWords != null).Where(n => n.JoinWords.Intersect(item.JoinWords).Any()).ToList();
+                }
                 checkedListBoxControl1.Items.Clear();
+                checkedListBoxControl2.Items.Clear();
                 foreach (var word in item.JoinWords)
                 {
-                    checkedListBoxControl1.Items.Add(word, CheckState.Checked);
+                    checkedListBoxControl1.Items.Add(word);
                 }
-                gridControl2.DataSource = FilterMatchedInstitutionModels;
+                checkedListBoxControl2.Items.Add(new Location { Name = item.Province, Type = "Province" }, item.Province);
+                checkedListBoxControl2.Items.Add(new Location { Name = item.City, Type = "City" }, item.City);
+                gridControl2.DataSource = FilterInstitutionModels;
             }
         }
-
         private void checkedListBoxControl1_ItemCheck(object sender, DevExpress.XtraEditors.Controls.ItemCheckEventArgs e)
         {
             var words = (from object item in checkedListBoxControl1.CheckedItems select item.ToString()).ToList();
-            FilterMatchedInstitutionModels =
-                MatchedInstitutionModels.Where(n => n.JoinWords.Any(p => words.Contains(p))).ToList();
-           
-            gridControl2.DataSource = FilterMatchedInstitutionModels;
+            var allwords = (from object item in checkedListBoxControl1.Items select item.ToString()).ToList();
+            if (words.Any())
+            {
+                FilterInstitutionModels =
+                DataSource.InstitutionModels.Where(n => n.JoinWords != null).Where(n => n.JoinWords.Intersect(words).Count() == words.Count).ToList();
+            }
+            else
+            {
+                FilterInstitutionModels = DataSource.InstitutionModels.Where(n => n.JoinWords != null).Where(n => n.JoinWords.Intersect(allwords).Any()).ToList();
+            }
+            var location = new List<Location>();
+            for (int i = 0; i < checkedListBoxControl2.Items.Count; i++)
+            {
+                if (checkedListBoxControl2.GetItemChecked(i))
+                {
+                    location.Add((Location)checkedListBoxControl2.GetItemValue(i));
+                }
+            }
+            if (location.Any())
+            {
+                if (location.Any(n => n.Type == "Province"))
+                {
+                    FilterInstitutionModels = FilterInstitutionModels.Where(n => n.Province == location.Where(p => p.Type == "Province").Select(p => p.Name).FirstOrDefault()).ToList();
+                }
+                if (location.Any(n => n.Type == "City"))
+                {
+                    FilterInstitutionModels = FilterInstitutionModels.Where(n => n.City == location.Where(p => p.Type == "City").Select(p => p.Name).FirstOrDefault()).ToList();
+                }
+            }
+            gridControl2.DataSource = FilterInstitutionModels;
+        }
+        /// <summary>
+        /// 取消匹配
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void gridView1_DoubleClick(object sender, EventArgs e)
+        {
+            var view = (GridView)sender;
+            var item = (Item)view.GetRowCellValue(view.FocusedRowHandle, "Item");
+            var matched = DataSource.Matcheds.FirstOrDefault(n => n.Item.Id == item.Id);
+            if (matched != null)
+            {
+                matched.MatchedInstitutionModel = null;
+                gridView1.RefreshData();
+                gridView2.RefreshData();
+            }
         }
     }
 }

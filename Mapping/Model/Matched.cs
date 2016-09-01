@@ -9,8 +9,11 @@ namespace Mapping.Model
     public class Matched
     {
         public Item Item { get; set; }
-        public List<MatchedInstitutionModel> MatchedInstitutionModels { get; set; }
-        public MatchedInstitutionModel MatchedInstitutionModel => MatchedInstitutionModels.FirstOrDefault();
+        //public List<MatchedInstitutionModel> MatchedInstitutionModels { get; set; }
+        /// <summary>
+        /// 匹配的结果
+        /// </summary>
+        public MatchedInstitutionModel MatchedInstitutionModel { get; set; }
     }
     public class MatchedInstitutionModel : InstitutionModel
     {

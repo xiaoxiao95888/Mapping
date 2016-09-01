@@ -57,7 +57,8 @@ namespace Mapping
 
             return base.SaveChanges();
         }
-        public DbSet<Institution> Institutions { get; set; }protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        public DbSet<Institution> Institutions { get; set; }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //modelBuilder.Configurations.Add(new LetterMapping());
             //modelBuilder.Configurations.Add(new RetailerMapping());

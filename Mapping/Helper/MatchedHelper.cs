@@ -17,13 +17,13 @@ namespace Mapping.Helper
             var matched = new Matched
             {
                 Item = item,
-                MatchedInstitutionModels = new List<MatchedInstitutionModel>()
+                //MatchedInstitutionModels = new List<MatchedInstitutionModel>()
             };
             DataSource.Matcheds.Add(matched);
             var nameMatched = DataSource.InstitutionModels.FirstOrDefault(n => n.Name.Trim() == item.Name);
             if (nameMatched != null)
             {
-                matched.MatchedInstitutionModels.Add(new MatchedInstitutionModel
+                matched.MatchedInstitutionModel = new MatchedInstitutionModel
                 {
                     Id = nameMatched.Id,
                     Name = nameMatched.Name,
@@ -37,7 +37,7 @@ namespace Mapping.Helper
                     Words = nameMatched.Words,
                     UpdateTime = nameMatched.UpdateTime,
                     Percent = 1
-                });
+                };
             }
             else
             {
@@ -125,7 +125,8 @@ namespace Mapping.Helper
                             Percent = percent
                         });
                     }
-                    matched.MatchedInstitutionModels = result.OrderByDescending(n => n.Percent).ToList();
+                    //matched.MatchedInstitutionModels = result.OrderByDescending(n => n.Percent).ToList();
+                    matched.MatchedInstitutionModel = result.OrderByDescending(n => n.Percent).FirstOrDefault();
                 }
 
             }

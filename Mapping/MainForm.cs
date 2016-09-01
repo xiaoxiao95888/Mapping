@@ -49,7 +49,7 @@ namespace Mapping
             SplashScreenTool.ShowSplashScreen(this, typeof(WaitForm1));
             var items = GetSelected().ToList();
             var task1 = Segmentation(items);
-            var task2 = Localtion(items);
+            var task2 = Localtion(items.Where(n => string.IsNullOrEmpty(n.Province) || string.IsNullOrEmpty(n.City)).ToList());
             new Action(async () =>
             {
                 await task1;
