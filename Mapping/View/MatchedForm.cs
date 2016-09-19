@@ -22,6 +22,8 @@ namespace Mapping.View
             InitializeComponent();
             Init();
         }
+        public int rowhandle;
+        public bool HasView;
         private List<InstitutionModel> FilterInstitutionModels { get; set; }
         public void Init()
         {
@@ -89,9 +91,11 @@ namespace Mapping.View
             var matched = DataSource.Matcheds.FirstOrDefault(n => n.Item.Id == item.Id);
             if (matched != null)
             {
+                HasView = !HasView;
+                rowhandle = gridView1.FocusedRowHandle;
                 if (item.JoinWords != null)
                 {
-                    FilterInstitutionModels = DataSource.InstitutionModels.Where(n => n.JoinWords != null).Where(n => n.JoinWords.Intersect(item.JoinWords).Any()).ToList();
+                    FilterInstitutionModels = DataSource.InstitutionModels.Where(n => n.JoinWords != null).Where(n => item.JoinWords.Any(p => n.Name.Contains(p))).ToList();
                 }
                 checkedListBoxControl1.Items.Clear();
                 checkedListBoxControl2.Items.Clear();
@@ -102,20 +106,25 @@ namespace Mapping.View
                 checkedListBoxControl2.Items.Add(new Location { Name = item.Province, Type = "Province" }, item.Province);
                 checkedListBoxControl2.Items.Add(new Location { Name = item.City, Type = "City" }, item.City);
                 gridControl2.DataSource = FilterInstitutionModels;
+                gridView1.RefreshRow(rowhandle);
             }
+
         }
         private void checkedListBoxControl1_ItemCheck(object sender, DevExpress.XtraEditors.Controls.ItemCheckEventArgs e)
         {
-            var words = (from object item in checkedListBoxControl1.CheckedItems select item.ToString()).ToList();
-            var allwords = (from object item in checkedListBoxControl1.Items select item.ToString()).ToList();
+            var words = (from object item in checkedListBoxControl1.CheckedItems select item.ToString()).ToList();//选中的关键字
+            var allwords = (from object item in checkedListBoxControl1.Items select item.ToString()).ToList();//所有关键字
             if (words.Any())
             {
                 FilterInstitutionModels =
-                DataSource.InstitutionModels.Where(n => n.JoinWords != null).Where(n => n.JoinWords.Intersect(words).Count() == words.Count).ToList();
+               DataSource.InstitutionModels.Where(n => n.JoinWords != null).Where(n => words.Count(w => n.Name.Contains(w)) == words.Count).ToList();
+                //FilterInstitutionModels =
+                //DataSource.InstitutionModels.Where(n => n.JoinWords != null).Where(n => n.JoinWords.Intersect(words).Count() == words.Count).ToList();
             }
             else
             {
-                FilterInstitutionModels = DataSource.InstitutionModels.Where(n => n.JoinWords != null).Where(n => n.JoinWords.Intersect(allwords).Any()).ToList();
+                FilterInstitutionModels = DataSource.InstitutionModels.Where(n => n.JoinWords != null).Where(n => allwords.Any(p => n.Name.Contains(p))).ToList();
+                //FilterInstitutionModels = DataSource.InstitutionModels.Where(n => n.JoinWords != null).Where(n => n.JoinWords.Intersect(allwords).Any()).ToList();
             }
             var location = new List<Location>();
             for (int i = 0; i < checkedListBoxControl2.Items.Count; i++)
@@ -154,6 +163,11 @@ namespace Mapping.View
                 gridView1.RefreshData();
                 gridView2.RefreshData();
             }
+        }
+
+        private void gridView1_RowStyle(object sender, RowStyleEventArgs e)
+        {
+
         }
     }
 }

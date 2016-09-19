@@ -14,6 +14,7 @@ namespace Mapping.Model
         /// 匹配的结果
         /// </summary>
         public MatchedInstitutionModel MatchedInstitutionModel { get; set; }
+        
     }
     public class MatchedInstitutionModel : InstitutionModel
     {
