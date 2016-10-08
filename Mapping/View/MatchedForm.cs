@@ -95,7 +95,8 @@ namespace Mapping.View
                 rowhandle = gridView1.FocusedRowHandle;
                 if (item.JoinWords != null)
                 {
-                    FilterInstitutionModels = DataSource.InstitutionModels.Where(n => n.JoinWords != null).Where(n => item.JoinWords.Any(p => n.Name.Contains(p))).ToList();
+                    FilterInstitutionModels = DataSource.InstitutionModels;
+                    //FilterInstitutionModels = DataSource.InstitutionModels.Where(n => n.JoinWords != null).Where(n => item.JoinWords.Any(p => n.Name.Contains(p))).ToList();
                 }
                 checkedListBoxControl1.Items.Clear();
                 checkedListBoxControl2.Items.Clear();
