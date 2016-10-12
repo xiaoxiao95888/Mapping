@@ -266,6 +266,27 @@ namespace Mapping
         {
             var aaa = 1;
         }
+        /// <summary>
+        /// 导出分析的结果
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void barButtonItem6_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            if (DataSource.DataSource1.Any())
+            {
+                var form = new SheetFormProcessingResult
+                {
+                    StartPosition = FormStartPosition.CenterParent,
+                    WindowState = FormWindowState.Maximized
+                };
+                form.Show();
+            }
+            else
+            {
+                XtraMessageBox.Show("没有任何匹配的结果", "提示");
+            }
+        }
 
 
         //private void gridView3_DoubleClick(object sender, EventArgs e)
