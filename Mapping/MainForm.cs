@@ -128,7 +128,7 @@ namespace Mapping
                 Type = n.Type,
                 TypeCode = n.TypeCode,
                 Address = n.Address,
-                Location = n.Location,
+                LocationCode = n.LocationCode,
                 Province = n.Province,
                 City = n.City,
                 District = n.District,

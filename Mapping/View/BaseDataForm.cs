@@ -139,7 +139,7 @@ namespace Mapping.View
                     data.Address = item.Address;
                     data.City = item.City;
                     data.District = item.District;
-                    data.Location = item.Location;
+                    data.LocationCode = item.LocationCode;
                     data.Province = item.Province;
                     data.TypeCode = item.TypeCode;
                     data.Words = item.Words;

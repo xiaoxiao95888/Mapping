@@ -71,7 +71,7 @@ namespace Mapping.View
                     Type = matchedInstitutionModel.Type,
                     TypeCode = matchedInstitutionModel.TypeCode,
                     Address = matchedInstitutionModel.Address,
-                    Location = matchedInstitutionModel.Location,
+                    LocationCode = matchedInstitutionModel.LocationCode,
                     Province = matchedInstitutionModel.Province,
                     City = matchedInstitutionModel.City,
                     District = matchedInstitutionModel.District,
