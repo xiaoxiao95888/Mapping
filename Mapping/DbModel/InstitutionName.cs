@@ -11,9 +11,10 @@ namespace Mapping.DbModel
     [Table("新库医院带别名")]
     public class InstitutionName
     {
-        [Key]
         public Guid Id { get; set; }
-        public string InstitutionId { get; set; }
-        public string UsedName { get; set; }
+        public Guid InsId { get; set; }
+        [ForeignKey("InsId")]
+        public virtual  Institution Institution { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -133,7 +133,8 @@ namespace Mapping
                 City = n.City,
                 District = n.District,
                 Words = n.Words,
-                UpdateTime = n.UpdateTime
+                UpdateTime = n.UpdateTime,
+                UsedNames = n.InstitutionNames.Where(p=>p.Name!=n.Name).Select(p=>p.Name).ToArray()
             }).ToList());
         }
         /// <summary>
@@ -188,6 +189,11 @@ namespace Mapping
         {
             LoadInstitutions();
         }
+        /// <summary>
+        /// 点击匹配
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void barButtonItem5_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             DataSource.Matcheds = new BindingList<Matched>();
@@ -264,7 +270,7 @@ namespace Mapping
 
         private void barButtonItem5_ItemClick_1(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            var aaa = 1;
+            
         }
         /// <summary>
         /// 导出分析的结果

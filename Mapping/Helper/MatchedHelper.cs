@@ -36,7 +36,7 @@ namespace Mapping.Helper
                     District = nameMatched.District,
                     Words = nameMatched.Words,
                     UpdateTime = nameMatched.UpdateTime,
-                    Percent = 1
+                    Percent = 1,
                 };
             }
             else

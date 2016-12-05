@@ -23,6 +23,7 @@ namespace Mapping.DbModel
         public string District { get; set; }
         public string Words { get; set; }
         public DateTime UpdateTime { get; set; }
+        public virtual  ICollection<InstitutionName> InstitutionNames { get; set; }
         public string[] JoinWords => string.IsNullOrEmpty(Words) ? null : Words.Split(',');
     }
 }

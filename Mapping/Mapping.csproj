@@ -183,6 +183,7 @@
   <ItemGroup>
     <Compile Include="DataSource.cs" />
     <Compile Include="DbModel\IDtStamped.cs" />
+    <Compile Include="DbModel\InstitutionName.cs" />
     <Compile Include="Helper\MatchedHelper.cs" />
     <Compile Include="Helper\SplashScreenTool.cs" />
     <Compile Include="MainForm.cs">

@@ -27,6 +27,7 @@ namespace Mapping.View
         private List<InstitutionModel> FilterInstitutionModels { get; set; }
         public void Init()
         {
+            //var source = 
             gridControl1.DataSource = DataSource.Matcheds;
             foreach (DevExpress.XtraGrid.Columns.GridColumn item in gridView2.Columns)
             {
