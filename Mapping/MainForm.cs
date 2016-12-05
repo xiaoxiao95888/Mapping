@@ -132,9 +132,8 @@ namespace Mapping
                 Province = n.Province,
                 City = n.City,
                 District = n.District,
-                Words = n.Words,
-                UpdateTime = n.UpdateTime,
-                UsedNames = n.InstitutionNames.Where(p=>p.Name!=n.Name).Select(p=>p.Name).ToArray()
+                Words = n.Words,UpdateTime = n.UpdateTime,
+                UsedNames = n.InstitutionNames.Select(p=>p.UsedName).Distinct().ToList()
             }).ToList());
         }
         /// <summary>

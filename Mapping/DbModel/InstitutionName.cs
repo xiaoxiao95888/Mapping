@@ -14,7 +14,8 @@ namespace Mapping.DbModel
         public Guid Id { get; set; }
         public Guid InsId { get; set; }
         [ForeignKey("InsId")]
-        public virtual  Institution Institution { get; set; }
-        public string Name { get; set; }
+        public virtual Institution Institution { get; set; }
+        public string UsedName { get; set; }
+
     }
 }
