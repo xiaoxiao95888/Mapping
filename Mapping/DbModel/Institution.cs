@@ -18,9 +18,10 @@ namespace Mapping.DbModel
         public string TypeCode { get; set; }
         public string Address { get; set; }
         public string LocationCode { get; set; }
-        public string Province { get; set; }
-        public string City { get; set; }
-        public string District { get; set; }
+        public string LocationName { get; set; }
+        //public string Province { get; set; }
+        //public string City { get; set; }
+        //public string District { get; set; }
         public string Words { get; set; }
         public DateTime UpdateTime { get; set; }
         public virtual  ICollection<InstitutionName> InstitutionNames { get; set; }

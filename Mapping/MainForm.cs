@@ -129,9 +129,7 @@ namespace Mapping
                 TypeCode = n.TypeCode,
                 Address = n.Address,
                 LocationCode = n.LocationCode,
-                Province = n.Province,
-                City = n.City,
-                District = n.District,
+                LocationName = n.LocationName,
                 Words = n.Words,UpdateTime = n.UpdateTime,
                 UsedNames = n.InstitutionNames.Select(p=>p.UsedName).Distinct().ToList()
             }).ToList());

@@ -137,10 +137,9 @@ namespace Mapping.View
                     SplashScreenTool.SendCommand(SaveBaseDataWaitForm.WaitFormCommand.SetInstitution,
                         data.Name);
                     data.Address = item.Address;
-                    data.City = item.City;
-                    data.District = item.District;
+                   
                     data.LocationCode = item.LocationCode;
-                    data.Province = item.Province;
+                    data.LocationName = item.LocationName;
                     data.TypeCode = item.TypeCode;
                     data.Words = item.Words;
                     await DbService.InstitutionService.SyncUpdate();

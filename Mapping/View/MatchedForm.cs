@@ -37,9 +37,7 @@ namespace Mapping.View
                     TypeCode = ins.TypeCode,
                     Address = ins.Address,
                     LocationCode = ins.LocationCode,
-                    Province = ins.Province,
-                    City = ins.City,
-                    District = ins.District,
+                    LocationName = ins.LocationName,
                     Words = ins.Words,
                     UpdateTime = ins.UpdateTime,
                 }).Where(n => n.Name != null).ToList();
@@ -88,9 +86,7 @@ namespace Mapping.View
                     TypeCode = matchedInstitutionModel.TypeCode,
                     Address = matchedInstitutionModel.Address,
                     LocationCode = matchedInstitutionModel.LocationCode,
-                    Province = matchedInstitutionModel.Province,
-                    City = matchedInstitutionModel.City,
-                    District = matchedInstitutionModel.District,
+                    LocationName = matchedInstitutionModel.LocationName,
                     Words = matchedInstitutionModel.Words,
                     UpdateTime = matchedInstitutionModel.UpdateTime,
                     Percent = 1
@@ -134,7 +130,8 @@ namespace Mapping.View
             if (words.Any())
             {
                 FilterInstitutionModels = ExtendedAlias.Where(n => words.Count(w => n.Name.Contains(w)) == words.Count).ToList();
-            }else
+            }
+            else
             {
                 FilterInstitutionModels = ExtendedAlias;
             }

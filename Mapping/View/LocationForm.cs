@@ -67,9 +67,10 @@ namespace Mapping.View
                     if (item != null)
                     {
                         item.TypeCode = place.TypeCode;
-                        item.Province = place.Province;
-                        item.City = place.City;
-                        item.District = place.District;
+                        //item.LocationName = place.LocationName;
+                        //item.Province = place.Province;
+                        //item.City = place.City;
+                        //item.District = place.District;
                         item.Address = place.Address;
                         gridView1.RefreshData();
                     }
