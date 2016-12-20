@@ -130,6 +130,7 @@ namespace Mapping
                 Address = n.Address,
                 LocationCode = n.LocationCode,
                 LocationName = n.LocationName,
+                Code = n.Code,
                 Words = n.Words,UpdateTime = n.UpdateTime,
                 UsedNames = n.InstitutionNames.Select(p=>p.UsedName).Distinct().ToList()
             }).ToList());

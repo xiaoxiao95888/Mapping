@@ -12,6 +12,7 @@ namespace Mapping.Model
         public string Name { get; set; }
         public string Type { get; set; }
         public string TypeCode { get; set; }
+        public string Code { get; set; }
         public string Address { get; set; }
         public string LocationCode { get; set; }
         public string LocationName { get; set; }

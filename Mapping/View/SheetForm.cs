@@ -46,6 +46,7 @@ namespace Mapping.View
                 _IndustryCode = n.MatchedInstitutionModel?.TypeCode,
                 //_Words = n.MatchedInstitutionModel?.Words,
                 Weight = n.MatchedInstitutionModel?.PercentStr,
+                InsId = n.MatchedInstitutionModel?.Code
             }).ToList();
             if (result.Any())
             {

@@ -19,6 +19,7 @@ namespace Mapping.DbModel
         public string Address { get; set; }
         public string LocationCode { get; set; }
         public string LocationName { get; set; }
+        public string Code { get; set; }
         //public string Province { get; set; }
         //public string City { get; set; }
         //public string District { get; set; }

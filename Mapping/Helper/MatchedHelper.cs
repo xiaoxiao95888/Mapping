@@ -35,6 +35,7 @@ namespace Mapping.Helper
                     Words = nameMatched.Words,
                     UpdateTime = nameMatched.UpdateTime,
                     Percent = 1,
+                    Code = nameMatched.Code
                 };
             }
             else
@@ -118,7 +119,8 @@ namespace Mapping.Helper
                             LocationName = ins.LocationName,
                             Words = ins.Words,
                             UpdateTime = ins.UpdateTime,
-                            Percent = percent
+                            Percent = percent,
+                            Code = ins.Code
                         });
                     }
                     //matched.MatchedInstitutionModels = result.OrderByDescending(n => n.Percent).ToList();
