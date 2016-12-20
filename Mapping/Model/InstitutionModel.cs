@@ -32,7 +32,7 @@ namespace Mapping.Model
                 var arr = LocationName?.Split(' ');
                 if (arr != null && arr.Length >= 2)
                 {
-                    return arr[1];
+                    return arr[1] == "市辖区" ? arr[0] : arr[1];
                 }
                 return null;
             }
