@@ -89,7 +89,8 @@ namespace Mapping.View
                     LocationName = matchedInstitutionModel.LocationName,
                     Words = matchedInstitutionModel.Words,
                     UpdateTime = matchedInstitutionModel.UpdateTime,
-                    Percent = 1
+                    Percent = 1,
+                    Code = matchedInstitutionModel.Code
                 };
                 matched.MatchedInstitutionModel = model;
                 gridView1.RefreshData();
