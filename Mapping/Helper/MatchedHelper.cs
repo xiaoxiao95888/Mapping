@@ -20,7 +20,11 @@ namespace Mapping.Helper
                 //MatchedInstitutionModels = new List<MatchedInstitutionModel>()
             };
             DataSource.Matcheds.Add(matched);
-            var nameMatched = DataSource.InstitutionModels.FirstOrDefault(n => n.Name.Trim() == item.Name);
+            var nameMatched =
+                DataSource.InstitutionModels.FirstOrDefault(
+                    n =>
+                        n.Name.Trim() == item.Name ||
+                        (n.UsedNames != null && n.UsedNames.Any(p => p != null && p.Trim() == item.Name)));
             if (nameMatched != null)
             {
                 matched.MatchedInstitutionModel = new MatchedInstitutionModel
