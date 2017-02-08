@@ -127,27 +127,19 @@ namespace Mapping.View
         private void checkedListBoxControl1_ItemCheck(object sender, DevExpress.XtraEditors.Controls.ItemCheckEventArgs e)
         {
             var words = (from object item in checkedListBoxControl1.CheckedItems select item.ToString()).ToList();//选中的关键字
-            //var allwords = (from object item in checkedListBoxControl1.Items select item.ToString()).ToList();//所有关键字
-            if (words.Any())
-            {
-                FilterInstitutionModels = ExtendedAlias.Where(n => words.Count(w => n.Name.Contains(w)) == words.Count).ToList();
-            }
-            else
-            {
-                FilterInstitutionModels = ExtendedAlias;
-            }
+           
+
+            FilterInstitutionModels = ExtendedAlias.Where(n => words.All(p => n.Name.Contains(p))).ToList();
+
             //if (words.Any())
             //{
-            //    FilterInstitutionModels =
-            //   DataSource.InstitutionModels.Where(n => n.JoinWords != null).Where(n => words.Count(w => n.Name.Contains(w)) == words.Count).ToList();
-            //    //FilterInstitutionModels =
-            //    //DataSource.InstitutionModels.Where(n => n.JoinWords != null).Where(n => n.JoinWords.Intersect(words).Count() == words.Count).ToList();
+            //    FilterInstitutionModels = ExtendedAlias.Where(n => words.Count(w => n.Name.Contains(w)) == words.Count).ToList();
             //}
             //else
             //{
-            //    FilterInstitutionModels = DataSource.InstitutionModels.Where(n => n.JoinWords != null).Where(n => allwords.Any(p => n.Name.Contains(p))).ToList();
-            //    //FilterInstitutionModels = DataSource.InstitutionModels.Where(n => n.JoinWords != null).Where(n => n.JoinWords.Intersect(allwords).Any()).ToList();
+            //    FilterInstitutionModels = ExtendedAlias;
             //}
+
             var location = new List<Location>();
             for (int i = 0; i < checkedListBoxControl2.Items.Count; i++)
             {

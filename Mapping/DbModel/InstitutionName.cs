@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Mapping.DbModel
 {
-    [Table("新库医院带别名")]
+    [Table("InsUsedName")]
     public class InstitutionName
     {
         public Guid Id { get; set; }
